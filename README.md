@@ -1,5 +1,5 @@
 
-# Luque Lab project template
+# ACUNAO AI
 
 ## WHAT
 This repository provides the default structure for projects in the Luque Lab.
