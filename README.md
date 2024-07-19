@@ -1,35 +1,66 @@
 
 # ACUNAO AI
 
-## WHAT
-This repository provides the default structure for projects in the Luque Lab.
+## Description
+An AI assistant as a domain expert of the lab’s documents that has the ability to answer users’ queries accurately. The user must be able to trust the answers given by the AI assistant and give input in order for the AI assistant to continuously learn how to better respond to users’ queries. 
 
-## WHO
-The template was originally concived by Antoni Luque based on recommendations from Noble PLoS Comp Biol 2009, Wilson et al PLoS Comp Biol 2017, and Briney "Data Management for Researchers" (2015), Hunt and Thomas "The Pragmatic Programmer: Your Journey to Mastery" (2019 2nd ed).
+Due to the rapid growth of AI, especially since the launch of ChatGPT, there has been a drastic increase in AI products and services. These products and services have mostly been developed to appeal to the general public. There is a lack of AI solution to support interdisciplinary research labs whose documents could accumulate so quickly, which leads to misplaced or forgotten information. The nature of these documents also poses as a problem since they are generally complex and confidential. ACUNAO aims to bridge this gap.
 
-## WHEN
+## Table of Contents
+* [Installation](#installation)
+* [Documentation](#documentation)
+* [Project History](#project-history)
+* [Folder's descriptions](#folders-descriptions)
+* [Maintainers](#maintainers)
+    * [Contributors](#contributors)
+* [License](#license)
+
+## Installation
+To set up ACUNAO AI locally, follow these steps:
+
+1. **Clone the repository**
+```git clone https://github.com/luquelab/ACUNAO.git```
+2. **Navigate to project directory**
+```cd ACUNAO```
+3. **Create a virtual environment**
+```python3 -m venv venv```
+4. **Activate the virtual environment**
+For macOS and Linux:
+```source venv/bin/activate```
+For Windows:
+Command Prompt
+```venv\Scripts\activate```
+PowerShell
+```.\venv\Scripts\Activate.ps1```
+5. **Install dependencies**
+```pip install -r requirements.txt```
+6. **Run the application**
+```streamlit run src/app.py```
+
+## Documentation
+ACUNAO's documentation is available as a GitHub-pages website accessible at [add later]. The documentation's source files are located in this repository at https://github.com/luquelab/ACUNAO/tree/main/docs.
+
+## Project History
 This is an evolving repository
-Started: 2021-05-10
+Started: 2024-06-03
 
-End: ...
+End: Ongoing
 
-## FILES & FOLDERS
-FOLDER: /bin
---> This folder contains basic scripts and executable files.
+## Folder's descriptions
+* `/data`: Files used for testing purposes.
+* `/docs`: This folder contains the project's documentation.
+* `/results`: This folder contains the results, performance analysis, and commented references associated with the project.
+* `/src`: Project's source codes.
 
-FOLDER: /conda
---> This folder contains necessary scripts for deploying a conda package.
+## Maintainers
+[@LuqueLab](https://github.com/luquelab)
 
-FOLDER: /data
---> This folder contains the raw data associated with the project and the potential references.
+### Contributors
+This project exists thanks to all the people who contribute. 
+[@LuqueLab](https://github.com/luquelab)
 
-FOLDER: /docs
---> This folder contains the manuscript, digital copies of the cited references, figures, and other associated files for publication.
+## License
+This project is licensed under a license.
 
-FOLDER: /results
---> This folder contains the results, performance analysis, and commented references associated with the project.
-
-FOLDER: /src
---> This folder contains source code files that require compilation.
-
+------
 The syntax of markdown files (.md) is CommonMark unless specified otherwise (https://commonmark.org/help/)
