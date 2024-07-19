@@ -38,7 +38,7 @@ For Windows: ```venv\Scripts\activate``` or ```.\venv\Scripts\Activate.ps1```
 
 5. **Install dependencies**
 ```
-pip install -r requirements.txt
+pip install -r src/requirements.txt
 ```
 6. **Run the application**
 ```
