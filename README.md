@@ -31,11 +31,14 @@ cd ACUNAO
 python3 -m venv venv
 ```
 4. **Activate the virtual environment**
+
 For macOS and Linux:
 ```
 source venv/bin/activate
 ```
+
 For Windows:
+
 Command Prompt
 ```
 venv\Scripts\activate
