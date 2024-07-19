@@ -64,7 +64,7 @@ End: Ongoing
 [@LuqueLab](https://github.com/luquelab)
 
 ### Contributors
-This project exists thanks to all the people who contribute. 
+This project exists thanks to all the people who contribute.  
 [@LuqueLab](https://github.com/luquelab)
 
 ## License
