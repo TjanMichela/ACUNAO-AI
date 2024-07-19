@@ -9,15 +9,22 @@ import time
 from langchain.callbacks.streamlit import StreamlitCallbackHandler
 
 def setup_streamlit_page():
-    st.set_page_config(page_title="💬 Docu Chatbot", layout="wide")
+    """
+    Configures the default settings of the page.
+    """
+    st.set_page_config(page_title="💬 ACUNAO Chatbot", layout="wide")
 
 def setup_chat_page(assistant):
-    st.title("💬 Docu Chatbot")
+    """
+    Configures the settings of the chat section of the page. It contains the title, instructions to start using the chatbot, and interactions between the AI assistant and the user. Queries and responses happen in this function.
+    """
+
+    st.title("💬 ACUNAO Chatbot")
 
     st.info(
         """
         **Welcome! How may I assist you today?**  
-        Start by adding supported documents into the Kunye-Data folder in your computer's Documents folder or click the `open folder` button in the sidebar. Docu currently supports PDF documents:  
+        Start by adding supported documents into the ACUNAO-Data folder in your computer's Documents folder or click the `open folder` button in the sidebar. Docu currently supports PDF documents:  
 
         1. Open your computer's Documents folder.  
         2. Create a new folder with your project name to create a new project  
@@ -26,9 +33,11 @@ def setup_chat_page(assistant):
         **Pro tip:** Organize your project by creating separate folders for different topics inside your project to create separate databases!""")
 
     if "messages" not in st.session_state.keys():
+        # Set the initial AI message
         st.session_state.messages = [{"role": "assistant", "content": "How may I assist you today?"}]
 
     for message in st.session_state.messages:
+        # Display queries and responses
         with st.chat_message(message["role"]):
             st.write(message["content"])
 
@@ -39,18 +48,21 @@ def setup_chat_page(assistant):
 
     if st.session_state.messages[-1]["role"] != "assistant":
         with st.chat_message("assistant"):
-            retrieval_handler = PrintRetrievalHandler(st.container())
+            retrieval_handler = PrintRetrievalHandler(st.container()) # Callback for retriever
             st_cb = StreamlitCallbackHandler(
                             st.container(),
                             collapse_completed_thoughts=True,
                             expand_new_thoughts=True,
-                            )
+                            ) # Callback for RAG chain
             response = assistant.chat(prompt, st_cb=[st_cb, retrieval_handler])
             st.markdown(response)
         message = {"role": "assistant", "content": response}
         st.session_state.messages.append(message)
 
 def open_folder(path):
+    """
+    Opens the folder that houses the database and documents used in the RAG system.
+    """
     if platform.system() == "Windows":
         os.startfile(path)
     elif platform.system() == "Darwin":  # macOS
@@ -62,7 +74,10 @@ def clear_chat_history():
     st.session_state.messages = [{"role": "assistant", "content": "How may I assist you today?"}]
 
 def setup_sidebar():
-    st.sidebar.title("💬 Docu Chatbot")
+    """
+    Configures the settings of the sidebar. It contains basic information about the AI assistant, lists the supported documents users added into the ACUNAO-Data folder, and button to clear chat history.
+    """
+    st.sidebar.title("💬 ACUNAO Chatbot")
     st.sidebar.subheader("Chat with your documents")
     st.sidebar.markdown(
         """An AI assistant programmed to answer questions and provide information based on the documents you provide. It will only answer within the context you provide and should not deviate from the documents provided. If the AI assistant's answer is not based on the context, please let our lab know."""
@@ -70,7 +85,7 @@ def setup_sidebar():
 
     # Specify the desktop path and folder name for files storage
     desktop_path = os.path.join(os.path.expanduser("~"), "Documents")
-    folder_name = "Kunye-Data"
+    folder_name = "ACUNAO-Data"
     folder_path = os.path.join(desktop_path, folder_name)
 
     # Create the folder if it doesn't exist
@@ -86,7 +101,7 @@ def setup_sidebar():
     
     # Display files in sidebar with options to delete
     st.sidebar.subheader("Available Documents")
-    st.sidebar.success("Connected to Kunye-Data folder", icon="✅")
+    st.sidebar.success("Connected to ACUNAO-Data folder", icon="✅")
 
     for file in files:
         col1, col2 = st.sidebar.columns([4, 1])
@@ -126,6 +141,7 @@ def main():
     setup_chat_page(assistant)
 
     while processor_thread.is_alive():
+        # Display status of document processing 
         time.sleep(2)
         if processor.event_handler is not None:
             try:

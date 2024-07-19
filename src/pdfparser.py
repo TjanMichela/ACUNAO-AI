@@ -13,12 +13,12 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers.string import StrOutputParser
 import os
 from transformers import pipeline
-import time
 
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 class Element(BaseModel):
+    # Custom document elements for loader
     type: str
     page_content: Any
     metadata: dict
@@ -66,6 +66,16 @@ def rasterize_paper(
     
     
 class PDFLoader:
+    """
+    Load PDF to a custom document element format for vector databases.
+
+    Args:
+        pdf_path (Path): The path to the PDF file.
+
+    Attributes:
+        elements: Document elements to add to vector databases.
+        pipe: Initiate table-transformer-detection.
+    """
     def __init__(self, pdf_path: Path):
         self.pdf_path = pdf_path
         self.elements = []
@@ -87,6 +97,9 @@ class PDFLoader:
         return self.elements
 
     def extract(self, images, filepath):
+        """
+        Extract tables and texts from all images.
+        """
         for i, image in enumerate(images):
             metadata = {"source": str(filepath), "page": i}
             image = Image.open(image).convert("RGB")
@@ -104,16 +117,19 @@ class PDFLoader:
                     im = image[box[1]:box[3], box[0]:box[2]]
                     print("image cropped")
 
-                    # Convert the image to grayscale
+                    # Preprocess the image for OCR
                     im = cv2.resize(np.array(im), None, fx=1.5, fy=1.5, interpolation=cv2.INTER_CUBIC)
                     im = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
                     kernel = np.ones((1, 1), np.uint8)
                     im = cv2.dilate(im, kernel, iterations=1)
                     im = cv2.erode(im, kernel, iterations=1)
                     im = cv2.threshold(cv2.medianBlur(im, 3), 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
+
+                    # Configure and conduct OCR
                     custom_config = r'--oem 3 --psm 4'
                     table_txt = pytesseract.image_to_string(im, config=custom_config, lang="eng")
 
+                    # Remove table from image
                     cv2.rectangle(image, (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (255,255,255), -1)
 
                     self.elements.append(Element(type="table", page_content=table_txt, metadata=metadata))
@@ -124,6 +140,8 @@ class PDFLoader:
             # Convert the image to grayscale
             final_img = image[200:-200]
             final_img = cv2.resize(final_img, None, fx=1.5, fy=1.5, interpolation=cv2.INTER_CUBIC)
+
+            # Preprocess the image for OCR
             imag = cv2.cvtColor(final_img, cv2.COLOR_BGR2GRAY)
             kernel = np.ones((1, 1), np.uint8)
             imag = cv2.dilate(imag, kernel, iterations=1)
@@ -158,6 +176,7 @@ class PDFLoader:
                         pass
                 
                 if contours_found:
+                    # Avoid appending texts from figures i.e. graph axis values
                     text = pytesseract.image_to_string(roi, config=custom_config, lang="eng").replace("\n", " ")
                     cleaned = text
                     cleaned = ''.join(e for e in cleaned if e.isalnum())

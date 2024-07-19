@@ -11,7 +11,7 @@ import time
 
 
 desktop_path = os.path.join(os.path.expanduser("~"), "Documents")
-folder_name = "Kunye-Data"
+folder_name = "ACUNAO-Data"
 folder_path = os.path.join(desktop_path, folder_name)
 vdb_path = os.path.join(folder_path, "vectordb")
 PROCESSED_FILES_HASH = os.path.join(folder_path, "processed_files.txt") 
@@ -21,6 +21,14 @@ if not os.path.exists(folder_path):
     os.makedirs(folder_path)
 
 class DocumentEventHandler(FileSystemEventHandler):
+    """
+    A custom event handler for monitoring and processing document-related events in a file system. This handler processes files with specific extensions and triggers actions on create, modify, and delete events.
+    
+    Attributes:
+        processor: An instance responsible for processing and updating the vector database.
+        supported_extensions: A set of file extensions that the handler will process.
+        process_start: A flag indicating the processing state.
+    """
     def __init__(self, processor):
         self.processor = processor
         # self.supported_extensions = {".pdf", ".docx", ".pptx", ".xlsx", ".md", ".txt"}
@@ -38,6 +46,23 @@ class DocumentEventHandler(FileSystemEventHandler):
             self.processor.delete_from_vector_db(event.src_path)
 
 class DocumentProcessor:
+    """
+    A class responsible for processing documents, managing embeddings, and interfacing with a vector database. This class initializes necessary components and sets up a file system observer for monitoring changes in the specified folder path.
+
+    Attributes:
+        embeddings: Placeholder for document embeddings.
+        vectordb: Path to the vector database.
+        text_splitter: Placeholder for a text splitting utility.
+        folder_path: Path to the folder containing documents to be processed.
+        files: List to hold the names of the files to be processed.
+        observer: Observer for monitoring file system changes.
+        event_handler: Event handler for processing document-related events.
+        observer_initialized: Flag indicating whether the observer has been initialized.
+        observer_thread: Thread for running the observer.
+        supported_extensions: List of file extensions that the processor will handle.
+        loaded_files_path: Path to the file containing hashes of already processed files.
+        loaded_files: Set of hashes of already processed files, loaded from the specified path.
+    """
     def __init__(self):
         self.embeddings = None
         self.vectordb = vdb_path

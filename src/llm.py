@@ -9,6 +9,13 @@ from langchain.callbacks.base import BaseCallbackHandler
 
 
 class PrintRetrievalHandler(BaseCallbackHandler):
+    """
+    A callback handler for printing the status of context retrieval during a document search process.
+    This handler updates the status container with the query, retrieved documents, and their metadata.
+
+    Attributes:
+        status: A status container object used for displaying retrieval status and document details.
+    """
     def __init__(self, container):
         self.status = container.status("**Context Retrieval**")
 
@@ -35,7 +42,7 @@ class ChatPDFAssistant:
         self.embeddings = SentenceTransformerEmbeddings(model_name="nomic-ai/nomic-embed-text-v1.5", model_kwargs={"trust_remote_code":True}) 
 
 
-        self.db = Chroma(client=self.client, collection_name="kunye-db",embedding_function=self.embeddings)
+        self.db = Chroma(client=self.client, collection_name="acunao-db",embedding_function=self.embeddings)
 
 
         # Initialize the language model
