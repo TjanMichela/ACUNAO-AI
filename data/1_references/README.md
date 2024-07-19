@@ -18,7 +18,6 @@ Noble, William Stafford. "A quick guide to organizing computational biology proj
 + Why: This is a foundational reference on how the lab archives and documents projects, e.g., on GitHub.
 + Status: Studied.
 
-
 Associated pdf file name:
 Noble_2009_PLoSCompBio_guide_organization_projects.pdf
 
