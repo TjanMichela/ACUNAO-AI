@@ -15,7 +15,7 @@ def initialize_embeddings_and_db():
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
 
     # Specify the desktop path and folder name for vector database storage
-    desktop_path = os.path.join(os.path.expanduser("~"), "Documents", "Kunye-Data")
+    desktop_path = os.path.join(os.path.expanduser("~"), "Documents", "ACUNAO-Data")
     folder_name = "vectordb"
     folder_path = os.path.join(desktop_path, folder_name)
 
@@ -25,6 +25,6 @@ def initialize_embeddings_and_db():
 
     # Initialize Chroma vector store or load existing if available
     client = chromadb.PersistentClient(folder_path)
-    collection = client.get_or_create_collection(name="kunye-db", embedding_function=embeddings)
+    collection = client.get_or_create_collection(name="acunao-db", embedding_function=embeddings)
 
     return embeddings, client, collection, text_splitter
