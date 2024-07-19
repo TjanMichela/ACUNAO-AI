@@ -19,23 +19,39 @@ Due to the rapid growth of AI, especially since the launch of ChatGPT, there has
 To set up ACUNAO AI locally, follow these steps:
 
 1. **Clone the repository**
-```git clone https://github.com/luquelab/ACUNAO.git```
+```
+git clone https://github.com/luquelab/ACUNAO.git
+```
 2. **Navigate to project directory**
-```cd ACUNAO```
+```
+cd ACUNAO
+```
 3. **Create a virtual environment**
-```python3 -m venv venv```
+```
+python3 -m venv venv
+```
 4. **Activate the virtual environment**
 For macOS and Linux:
-```source venv/bin/activate```
+```
+source venv/bin/activate
+```
 For Windows:
 Command Prompt
-```venv\Scripts\activate```
+```
+venv\Scripts\activate
+```
 PowerShell
-```.\venv\Scripts\Activate.ps1```
+```
+.\venv\Scripts\Activate.ps1
+```
 5. **Install dependencies**
-```pip install -r requirements.txt```
+```
+pip install -r requirements.txt
+```
 6. **Run the application**
-```streamlit run src/app.py```
+```
+streamlit run src/app.py
+```
 
 ## Documentation
 ACUNAO's documentation is available as a GitHub-pages website accessible at [add later]. The documentation's source files are located in this repository at https://github.com/luquelab/ACUNAO/tree/main/docs.
