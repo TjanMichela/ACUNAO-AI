@@ -24,7 +24,7 @@ def setup_chat_page(assistant):
     st.info(
         """
         **Welcome! How may I assist you today?**  
-        Start by adding supported documents into the ACUNAO-Data folder in your computer's Documents folder or click the `open folder` button in the sidebar. Docu currently supports PDF documents:  
+        Start by adding supported documents into the ACUNAO-Data folder in your computer's Documents folder or click the `Open Folder` button in the sidebar. ACUNAO currently supports PDF documents:  
 
         1. Open your computer's Documents folder.  
         2. Create a new folder with your project name to create a new project  
