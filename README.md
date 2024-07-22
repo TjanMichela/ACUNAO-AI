@@ -54,7 +54,8 @@ ACUNAO's documentation is available as a GitHub-pages website accessible at [add
 
 ## Project History
 
-This is an evolving repository
+This is an evolving repository  
+
 Started: 2024-06-03
 
 End: Ongoing
