@@ -4,14 +4,13 @@ from langchain.chains import RetrievalQA
 from embeddings import initialize_embeddings_and_db
 from langchain_community.chat_models import ChatOllama
 from langchain_community.vectorstores import Chroma
-from langchain_community.embeddings import SentenceTransformerEmbeddings
+# from langchain_community.embeddings import SentenceTransformerEmbeddings
 from langchain.callbacks.base import BaseCallbackHandler
 
 
 class PrintRetrievalHandler(BaseCallbackHandler):
     """
-    A callback handler for printing the status of context retrieval during a document search process.
-    This handler updates the status container with the query, retrieved documents, and their metadata.
+    A callback handler for printing the status of context retrieval during a document search process. This handler updates the status container with the query, retrieved documents, and their metadata.
 
     Attributes:
         status: A status container object used for displaying retrieval status and document details.
@@ -35,14 +34,12 @@ class PrintRetrievalHandler(BaseCallbackHandler):
 class ChatPDFAssistant:
     """Handles PDF ingestion, query processing, and answering queries using a chat model."""
 
-    def __init__(self):
+    def __init__(self, db="project_example", embeddings=None):
         # Initialize embeddings and vector database
-        _, self.client, self.vectordb, self.text_splitter = initialize_embeddings_and_db()
-
-        self.embeddings = SentenceTransformerEmbeddings(model_name="nomic-ai/nomic-embed-text-v1.5", model_kwargs={"trust_remote_code":True}) 
+        _, self.client, self.vectordb, self.text_splitter = initialize_embeddings_and_db(db)
 
 
-        self.db = Chroma(client=self.client, collection_name="acunao-db",embedding_function=self.embeddings)
+        self.db = Chroma(client=self.client, collection_name="acunao-db",embedding_function=embeddings)
 
 
         # Initialize the language model

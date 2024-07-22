@@ -10,16 +10,6 @@ import logging
 import time
 
 
-desktop_path = os.path.join(os.path.expanduser("~"), "Documents")
-folder_name = "ACUNAO-Data"
-folder_path = os.path.join(desktop_path, folder_name)
-vdb_path = os.path.join(folder_path, "vectordb")
-PROCESSED_FILES_HASH = os.path.join(folder_path, "processed_files.txt") 
-
-# Create the folder if it doesn't exist
-if not os.path.exists(folder_path):
-    os.makedirs(folder_path)
-
 class DocumentEventHandler(FileSystemEventHandler):
     """
     A custom event handler for monitoring and processing document-related events in a file system. This handler processes files with specific extensions and triggers actions on create, modify, and delete events.
@@ -31,19 +21,33 @@ class DocumentEventHandler(FileSystemEventHandler):
     """
     def __init__(self, processor):
         self.processor = processor
-        # self.supported_extensions = {".pdf", ".docx", ".pptx", ".xlsx", ".md", ".txt"}
-        self.supported_extensions = {".pdf"}
-        self.process_start = 0
+        self.process_start = False
+        self.process_end = False
 
     def on_any_event(self, event):
-        if event.is_directory or not event.src_path.endswith(tuple(self.supported_extensions)):
+        normalized_path = os.path.normpath(event.src_path)
+        path_parts = normalized_path.split(os.sep)
+        
+        if event.is_directory or not event.src_path.endswith(tuple(self.processor.supported_extensions)):
             return None
-        if event.event_type in ['created', "modified"]:
-            self.process_start = 1
-            self.processor.update_vector_db(event.src_path)
-            self.process_start = 2
-        elif event.event_type == "deleted":
-            self.processor.delete_from_vector_db(event.src_path)
+
+        database_index = path_parts.index("ACUNAO-Data")
+        subpath_parts = path_parts[database_index + 1:]
+        if subpath_parts and os.path.splitext(subpath_parts[-1])[1]:
+            subpath_parts = subpath_parts[:-1]
+        self.processor.folder_name = os.sep.join(subpath_parts)
+
+        if len(self.processor.folder_name) != 0: 
+            if event.event_type in ['created', 'modified']:
+                if not self.process_start:  # Only process if not already processing
+                    self.process_start = True
+                    self.processor.embeddings, self.processor.client, self.processor.vectordb, self.processor.text_splitter = initialize_embeddings_and_db(self.processor.folder_name)
+                    self.processor.update_vector_db(event.src_path)
+                    self.process_end = True
+
+            elif event.event_type == 'deleted':
+                self.processor.embeddings, self.processor.client, self.processor.vectordb, self.processor.text_splitter = initialize_embeddings_and_db(self.processor.folder_name)
+                self.processor.delete_from_vector_db(event.src_path)
 
 class DocumentProcessor:
     """
@@ -64,18 +68,19 @@ class DocumentProcessor:
         loaded_files: Set of hashes of already processed files, loaded from the specified path.
     """
     def __init__(self):
+        self.desktop_path = os.path.join(os.path.expanduser("~"), "Documents", "ACUNAO-Data")
+        self.folder_name = "project_example" 
+        self.folder_path = os.path.join(self.desktop_path, self.folder_name)
+        self.vectordb = None
         self.embeddings = None
-        self.vectordb = vdb_path
         self.text_splitter = None
-        self.folder_path = folder_path
         self.files = []
         self.observer = None
         self.event_handler = None
         self.observer_initialized = False
         self.observer_thread = None
-        # self.supported_extensions = [".pdf", ".docx", ".pptx", ".xlsx", ".md", ".txt"]
         self.supported_extensions = [".pdf"]
-        self.loaded_files_path = PROCESSED_FILES_HASH
+        self.loaded_files_path = os.path.join(self.folder_path, "processed_files.txt")
         self.loaded_files = self.load_loaded_files()
 
     def load_loaded_files(self):
@@ -93,7 +98,7 @@ class DocumentProcessor:
         if not self.observer_initialized:
             self.observer = Observer()
             self.event_handler = DocumentEventHandler(self)
-            self.observer.schedule(self.event_handler, self.folder_path, recursive=True)
+            self.observer.schedule(self.event_handler, self.desktop_path, recursive=True)
             self.observer.start()
             self.observer_initialized = True
 
@@ -152,7 +157,7 @@ class DocumentProcessor:
             print(f"File deleted: {file_path}. Extension not supported, skipping deletion from vector database.")
 
     def run(self):
-        self.embeddings, self.client, self.vectordb, self.text_splitter = initialize_embeddings_and_db()
+        self.embeddings, self.client, self.vectordb, self.text_splitter = initialize_embeddings_and_db(self.folder_name)
         if not self.observer_initialized:
             self.initialize_observer()
 

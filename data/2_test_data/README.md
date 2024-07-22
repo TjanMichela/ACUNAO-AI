@@ -4,6 +4,4 @@ This folder contains the documents used to test the performance of the ACUNAO AI
 
 ### List of Documents
 
-* `ips-revised-handbook-2022-2023.pdf`
-* `msds_admissions.pdf`
-* `msds_financing.pdf`
+* `sample.pdf`

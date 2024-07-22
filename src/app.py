@@ -7,57 +7,10 @@ import platform
 import threading
 import time
 from langchain.callbacks.streamlit import StreamlitCallbackHandler
+from langchain_community.embeddings import SentenceTransformerEmbeddings
 
-def setup_streamlit_page():
-    """
-    Configures the default settings of the page.
-    """
-    st.set_page_config(page_title="💬 ACUNAO Chatbot", layout="wide")
 
-def setup_chat_page(assistant):
-    """
-    Configures the settings of the chat section of the page. It contains the title, instructions to start using the chatbot, and interactions between the AI assistant and the user. Queries and responses happen in this function.
-    """
-
-    st.title("💬 ACUNAO Chatbot")
-
-    st.info(
-        """
-        **Welcome! How may I assist you today?**  
-        Start by adding supported documents into the ACUNAO-Data folder in your computer's Documents folder or click the `Open Folder` button in the sidebar. ACUNAO currently supports PDF documents:  
-
-        1. Open your computer's Documents folder.  
-        2. Create a new folder with your project name to create a new project  
-        3. Add documents into the folder and your AI assistant is ready to answer your questions!   
-
-        **Pro tip:** Organize your project by creating separate folders for different topics inside your project to create separate databases!""")
-
-    if "messages" not in st.session_state.keys():
-        # Set the initial AI message
-        st.session_state.messages = [{"role": "assistant", "content": "How may I assist you today?"}]
-
-    for message in st.session_state.messages:
-        # Display queries and responses
-        with st.chat_message(message["role"]):
-            st.write(message["content"])
-
-    if prompt := st.chat_input():
-        st.session_state.messages.append({"role": "user", "content": prompt})
-        with st.chat_message("user"):
-            st.write(prompt)
-
-    if st.session_state.messages[-1]["role"] != "assistant":
-        with st.chat_message("assistant"):
-            retrieval_handler = PrintRetrievalHandler(st.container()) # Callback for retriever
-            st_cb = StreamlitCallbackHandler(
-                            st.container(),
-                            collapse_completed_thoughts=True,
-                            expand_new_thoughts=True,
-                            ) # Callback for RAG chain
-            response = assistant.chat(prompt, st_cb=[st_cb, retrieval_handler])
-            st.markdown(response)
-        message = {"role": "assistant", "content": response}
-        st.session_state.messages.append(message)
+st.set_page_config(page_title="💬 ACUNAO Chatbot", layout="wide")
 
 def open_folder(path):
     """
@@ -70,16 +23,24 @@ def open_folder(path):
     else:  # Linux
         subprocess.Popen(["xdg-open", path])
 
+# Function to get all folders and subfolders
+def get_folders(base_path):
+    folders = []
+    for root, dirs, _ in os.walk(base_path):
+        # Filter out "vectordb" and hidden folders
+        dirs[:] = [d for d in dirs if d.lower() != "vectordb" and not d.startswith('.')]
+        for dir in dirs:
+            # Store relative path of the folder
+            folders.append(os.path.relpath(os.path.join(root, dir), base_path))
+    return folders
+
 def clear_chat_history():
     st.session_state.messages = [{"role": "assistant", "content": "How may I assist you today?"}]
 
-def setup_sidebar():
-    """
-    Configures the settings of the sidebar. It contains basic information about the AI assistant, lists the supported documents users added into the ACUNAO-Data folder, and button to clear chat history.
-    """
-    st.sidebar.title("💬 ACUNAO Chatbot")
-    st.sidebar.subheader("Chat with your documents")
-    st.sidebar.markdown(
+with st.sidebar:
+    st.title("💬 ACUNAO Chatbot")
+    st.subheader("Chat with your documents")
+    st.markdown(
         """An AI assistant programmed to answer questions and provide information based on the documents you provide. It will only answer within the context you provide and should not deviate from the documents provided. If the AI assistant's answer is not based on the context, please let our lab know."""
         )
 
@@ -91,73 +52,119 @@ def setup_sidebar():
     # Create the folder if it doesn't exist
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
-    
-    # Define supported file extensions
-    # supported_extensions = {".pdf", ".docx", ".pptx", ".xlsx", ".md", ".txt"}
-    supported_extensions = {".pdf"}
 
-    # List files with supported extensions in the folder
-    files = [file for file in os.listdir(folder_path) if not file.startswith('.') and os.path.splitext(file)[1] in supported_extensions]
+    # # List folders and subfolders in the ACUNAO-Data folder
+    # folders = get_folders(folder_path)
+
+    # Fetch initial list of folders
+    if "folders" not in st.session_state:
+        st.session_state.folders = get_folders(folder_path)
+    
+    # Function to update the folder list
+    def update_folder_list():
+        st.session_state.folders = get_folders(folder_path)
     
     # Display files in sidebar with options to delete
-    st.sidebar.subheader("Available Documents")
-    st.sidebar.success("Connected to ACUNAO-Data folder", icon="✅")
+    st.subheader("Available Databases")
+    st.success("Only update database list when document finished processing!")
 
-    for file in files:
-        col1, col2 = st.sidebar.columns([4, 1])
-        col1.write(file)
+    selected_db = st.selectbox(
+        'Choose a database:',
+        options=st.session_state.folders
+    )
 
-    if st.sidebar.button("Open Folder"):
+    # Button to update the database list
+    if st.button("Update database list"):
+        update_folder_list()
+
+    if st.button("Open ACUNAO-Data Folder"):
         open_folder(folder_path)
 
-    st.sidebar.divider()
+    st.divider()
 
-    st.sidebar.subheader("Manage Chat History")
-    st.sidebar.warning("Warning: your chat history will be cleared from memory!", icon="⚠️")
-    st.sidebar.button('Clear Chat History', on_click=clear_chat_history, type="secondary")
-    
-    return None
+    st.subheader("Manage Chat History")
+    st.warning("Warning: your chat history will be cleared from memory!", icon="⚠️")
+    st.button('Clear Chat History', on_click=clear_chat_history, type="secondary")
 
 @st.cache_resource
-def init_assistant():
-    assistant = ChatPDFAssistant()
-    return assistant
+def init_embedding():
+    embeddings = SentenceTransformerEmbeddings(model_name="nomic-ai/nomic-embed-text-v1.5", model_kwargs={"trust_remote_code":True})
+    return embeddings
+
+st.title("💬 ACUNAO Chatbot")
+
+st.info(
+    """
+    **Welcome! How may I assist you today?**  
+    Start by adding supported documents into the ACUNAO-Data folder in your computer's Documents folder or click the 'Open ACUNAO-Data Folder' button in the sidebar. ACUNAO currently supports PDF documents:  
+
+    1. Open ACUNAO-Data folder in your computer's Documents folder.  
+    2. Create a new folder with your project name to create a new project.  
+    3. Add documents into the folder and your AI assistant is ready to answer your questions!   
+
+    **Pro tip:** Organize your project by creating separate folders for different topics inside your project to create separate databases!""")
+
+if "messages" not in st.session_state.keys():
+    # Set the initial AI message
+    st.session_state.messages = [{"role": "assistant", "content": "How may I assist you today?"}]
+
+for message in st.session_state.messages:
+    # Display queries and responses
+    with st.chat_message(message["role"]):
+        st.write(message["content"])
+
+if prompt := st.chat_input():
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    with st.chat_message("user"):
+        st.write(prompt)
+
+# Initiate the embeddings for llm
+embeddings = init_embedding()
+
+# Initiate llm based on database selected
+if selected_db != None:
+    assistant = ChatPDFAssistant(selected_db, embeddings)
+else: 
+    assistant = ChatPDFAssistant(embeddings=embeddings)
+
+# Respond to user query
+if st.session_state.messages[-1]["role"] != "assistant":
+    with st.chat_message("assistant"):
+        retrieval_handler = PrintRetrievalHandler(st.container()) # Callback for retriever
+        st_cb = StreamlitCallbackHandler(
+                        st.container(),
+                        collapse_completed_thoughts=True,
+                        expand_new_thoughts=True,
+                        ) # Callback for RAG chain
+        response = assistant.chat(prompt, st_cb=[st_cb, retrieval_handler])
+        st.markdown(response)
+    message = {"role": "assistant", "content": response}
+    st.session_state.messages.append(message)
 
 @st.cache_resource
 def init_processor():
     processor = DocumentProcessor()
     return processor
 
-def main():
-    setup_streamlit_page()
-    setup_sidebar()
+# Initiate document processor in a separate thread
+processor = init_processor()
+processor_thread = threading.Thread(target=processor.run, daemon=True)
+processor_thread.start()
 
-    assistant = init_assistant()
-    processor = init_processor()
-
-    processor_thread = threading.Thread(target=processor.run, daemon=True)
-    processor_thread.start()
-
-    setup_chat_page(assistant)
-
-    while processor_thread.is_alive():
-        # Display status of document processing 
-        time.sleep(2)
-        if processor.event_handler is not None:
-            try:
-                placeholder = st.empty()
-                if processor.event_handler.process_start == 1:
-                    placeholder.warning("New document detected!")
-                    time.sleep(5)
-                    placeholder.warning("Processing document...")
-                    processor.event_handler.process_start = 0
-                elif processor.event_handler.process_start == 2:
-                    st.success("Done! Finished processing document.", icon="✅")
-                    processor.event_handler.process_start = 0
-                else:
-                    continue
-            except KeyboardInterrupt:
-                break
-
-if __name__ == "__main__":
-    main()
+# Messages while document is processing 
+while processor_thread.is_alive():
+    # Display status of document processing 
+    time.sleep(2)
+    if processor.event_handler is not None:
+        try:
+            placeholder = st.empty()
+            if processor.event_handler.process_start:
+                placeholder.warning("New document detected!")
+                time.sleep(3)
+                placeholder.warning("Processing document...")
+                processor.event_handler.process_start = False
+            elif processor.event_handler.process_end:
+                st.success("Done! Finished processing document.", icon="✅")
+                processor.event_handler.process_end = False
+        except KeyboardInterrupt:
+            break
