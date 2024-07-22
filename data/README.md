@@ -21,10 +21,10 @@ data/
 │   ├── README.md
 │
 └── 2_test_data/
-    ├── ips-revised-handbook-2022-2023.pdf       # Documents used for testing  
-    ├── msds_admissions.pdf   
-    ├── msds_financing.pdf
-    ├── README.md
+    ├── sample.pdf       # Documents used for testing  
+    ├── vectordb   
+    ├── processed_files.txt   
+    ├── README.md   
 ```
 
 ### 1_references
@@ -35,6 +35,6 @@ data/
 
 ### 2_test_data
 
-The folder contains the documents used to test the performance of the ACUNAO AI Assistant. 
+The folder contains the documents used to test the performance of the ACUNAO AI Assistant and the vector database that accompanies it. The contents of this folder will be the default database when ACUNAO AI Assistant is run and can be found under the `project_example` folder.
 
 
