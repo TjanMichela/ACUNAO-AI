@@ -166,5 +166,11 @@ while processor_thread.is_alive():
             elif processor.event_handler.process_end:
                 st.success("Done! Finished processing document.", icon="✅")
                 processor.event_handler.process_end = False
+            elif processor.event_handler.del_process_start:
+                placeholder.warning("Deleting document...")
+                processor.event_handler.del_process_start = False
+            elif processor.event_handler.del_process_end:
+                st.success("Done! Document deleted.", icon="✅")
+                processor.event_handler.del_process_end = False
         except KeyboardInterrupt:
             break
