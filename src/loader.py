@@ -26,6 +26,8 @@ class DocumentEventHandler(FileSystemEventHandler):
         self.processor = processor
         self.process_start = False
         self.process_end = False
+        self.del_process_start = False
+        self.del_process_end = False
 
     def on_any_event(self, event):
         normalized_path = os.path.normpath(event.src_path)
@@ -49,8 +51,10 @@ class DocumentEventHandler(FileSystemEventHandler):
                     self.process_end = True
 
             elif event.event_type == 'deleted':
+                self.del_process_start = True
                 self.processor.embeddings, self.processor.client, self.processor.vectordb, self.processor.text_splitter = initialize_embeddings_and_db(self.processor.folder_name)
                 self.processor.delete_from_vector_db(event.src_path)
+                self.del_process_end = True
 
 class DocumentProcessor:
     """
