@@ -45,10 +45,8 @@ class DocumentEventHandler(FileSystemEventHandler):
         if len(self.processor.folder_name) != 0: 
             if event.event_type in ['created', 'modified']:
                 if not self.process_start:  # Only process if not already processing
-                    self.process_start = True
                     self.processor.embeddings, self.processor.client, self.processor.vectordb, self.processor.text_splitter = initialize_embeddings_and_db(self.processor.folder_name)
                     self.processor.update_vector_db(event.src_path)
-                    self.process_end = True
 
             elif event.event_type == 'deleted':
                 self.del_process_start = True
@@ -135,6 +133,7 @@ class DocumentProcessor:
 
         else:
             print("Changes detected in folder. Updating vector database...")
+            self.event_handler.process_start = True
             start_time = time.time()
             t1_start = time.process_time() 
 
@@ -161,9 +160,9 @@ class DocumentProcessor:
 
             self.add_file_metadata(metadata, filename, database, datenow, timenow, modified_at, clock_time, cpu_time, size, file_extension)
             self.save_file_metadata(metadata, metadata_file)
+            self.event_handler.process_end = True
 
     def delete_from_vector_db(self, file_path):
-        # file_extension = os.path.splitext(file_path)[1]
         filename = Path(file_path).name
         database = os.path.dirname(os.path.abspath(file_path))
         metadata_file = os.path.join(database, "metadata.json")
