@@ -53,15 +53,8 @@ with st.sidebar:
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
 
-    # # List folders and subfolders in the ACUNAO-Data folder
-    # folders = get_folders(folder_path)
-
     # Fetch initial list of folders
     if "folders" not in st.session_state:
-        st.session_state.folders = get_folders(folder_path)
-    
-    # Function to update the folder list
-    def update_folder_list():
         st.session_state.folders = get_folders(folder_path)
     
     # Display files in sidebar with options to delete
@@ -75,7 +68,7 @@ with st.sidebar:
 
     # Button to update the database list
     if st.button("Update database list"):
-        update_folder_list()
+        st.session_state.folders = get_folders(folder_path)
 
     if st.button("Open ACUNAO-Data Folder"):
         open_folder(folder_path)
