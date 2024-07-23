@@ -5,9 +5,12 @@ from langchain_community.vectorstores.utils import filter_complex_metadata
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 import uuid
-import hashlib
+from pathlib import Path    
 import logging
 import time
+import json
+from datetime import datetime
+from pytz import timezone
 
 
 class DocumentEventHandler(FileSystemEventHandler):
@@ -80,19 +83,23 @@ class DocumentProcessor:
         self.observer_initialized = False
         self.observer_thread = None
         self.supported_extensions = [".pdf"]
-        self.loaded_files_path = os.path.join(self.folder_path, "processed_files.txt")
-        self.loaded_files = self.load_loaded_files()
+        self.timezone = timezone('America/New_York') # Datetime defaults to EST
 
-    def load_loaded_files(self):
-        if os.path.exists(self.loaded_files_path):
-            with open(self.loaded_files_path, 'r') as f:
-                return set(f.read().splitlines())
-        else:
-            return set()
+    def save_file_metadata(self, metadata, metadata_file):
+        with open(metadata_file, 'w') as f:
+            json.dump(metadata, f, indent=4)
 
-    def save_loaded_files(self):
-        with open(self.loaded_files_path, 'w') as f:
-            f.write('\n'.join(self.loaded_files))
+    def add_file_metadata(self, metadata, filename, database, datenow, timenow, modified_at, clock_time, cpu_time, size, filetype):
+        metadata[filename] = {
+            "database": database,
+            "date_added": datenow,
+            "time_added": timenow,
+            "modified_at": modified_at,
+            "clock_time": f"{clock_time}s",
+            "cpu_time": f"{cpu_time}s",
+            "size": f"{size}kb",
+            "filetype": filetype
+        }   
 
     def initialize_observer(self):
         if not self.observer_initialized:
@@ -102,27 +109,30 @@ class DocumentProcessor:
             self.observer.start()
             self.observer_initialized = True
 
-    def file_hash(self, file_path):
-        """
-        Generate a hash for a file.
-        """
-        hasher = hashlib.md5()
-        with open(file_path, 'rb') as f:
-            buf = f.read()
-            hasher.update(buf)
-        return hasher.hexdigest()
-
     def update_vector_db(self, file_path):
         file_extension = os.path.splitext(file_path)[1]
-        doc_hash = self.file_hash(file_path)
+        filename = Path(file_path).name
+        database = os.path.dirname(os.path.abspath(file_path))
+        metadata_file = os.path.join(database, "metadata.json")
+        size = os.path.getsize(file_path)/1000
+        modified_at = time.strftime('%Y-%m-%dT%H:%M:%S', time.localtime(os.path.getmtime(file_path)))
+    
+        # Load existing metadata if the file exists
+        if os.path.exists(metadata_file):
+            with open(metadata_file, 'r') as f:
+                metadata = json.load(f)
+        else:
+            metadata = {}
 
         # Skip files that have already been processed
-        if doc_hash in self.loaded_files:
+        if filename in metadata and metadata[filename]["modified_at"] == modified_at:
             logging.info("Skipping already processed file: %s", file_path)
             return
 
-        elif file_extension in self.supported_extensions and file_path not in self.loaded_files:
+        else:
             print("Changes detected in folder. Updating vector database...")
+            start_time = time.time()
+            t1_start = time.process_time() 
 
             logging.info("Processing file: %s", file_path)
 
@@ -138,23 +148,36 @@ class DocumentProcessor:
             )
 
             logging.info("File processed: %s", file_path)
-            self.loaded_files.add(doc_hash)
-            self.save_loaded_files()
+            end_time = time.time()
+            t1_stop = time.process_time()
 
-        else:
-            logging.warning("Unsupported file type or already loaded: %s", file_path)
+            clock_time = "{:.2f}".format(end_time - start_time)
+            cpu_time = "{:.2f}".format(t1_stop - t1_start)
+            datenow, timenow = datetime.now(self.timezone).isoformat().split("T")
+
+            self.add_file_metadata(metadata, filename, database, datenow, timenow, modified_at, clock_time, cpu_time, size, file_extension)
+            self.save_file_metadata(metadata, metadata_file)
 
     def delete_from_vector_db(self, file_path):
-        file_extension = os.path.splitext(file_path)[1]
-        doc_hash = self.file_hash(file_path)
-        if file_extension in self.supported_extensions:
-            file_id = os.path.basename(file_path)
-            print(f"File deleted: {file_path}. Removing from vector database...")
-            self.vectordb.delete(ids=[file_id])
-            self.loaded_files.discard(doc_hash)
-            self.save_loaded_files()
+        # file_extension = os.path.splitext(file_path)[1]
+        filename = Path(file_path).name
+        database = os.path.dirname(os.path.abspath(file_path))
+        metadata_file = os.path.join(database, "metadata.json")
+
+        # Load existing metadata if the file exists
+        if os.path.exists(metadata_file):
+            with open(metadata_file, 'r') as f:
+                metadata = json.load(f)
         else:
-            print(f"File deleted: {file_path}. Extension not supported, skipping deletion from vector database.")
+            metadata = {}
+
+        if filename in metadata:
+            print(f"File deleted: {file_path}. Removing from vector database...")
+            self.vectordb.delete(where={"source": file_path})
+
+            del metadata[filename]
+
+            self.save_file_metadata(metadata, metadata_file)
 
     def run(self):
         self.embeddings, self.client, self.vectordb, self.text_splitter = initialize_embeddings_and_db(self.folder_name)
