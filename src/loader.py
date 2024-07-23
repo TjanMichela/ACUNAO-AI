@@ -61,18 +61,19 @@ class DocumentProcessor:
     A class responsible for processing documents, managing embeddings, and interfacing with a vector database. This class initializes necessary components and sets up a file system observer for monitoring changes in the specified folder path.
 
     Attributes:
-        embeddings: Placeholder for document embeddings.
-        vectordb: Path to the vector database.
-        text_splitter: Placeholder for a text splitting utility.
+        desktop_path: Path to the ACUNAO-Data folder.
+        folder_name: Name of selected folder within ACUNAO-Data.
         folder_path: Path to the folder containing documents to be processed.
+        vectordb: Path to the vector database.
+        embeddings: Placeholder for document embeddings.
+        text_splitter: Placeholder for a text splitting utility.
         files: List to hold the names of the files to be processed.
         observer: Observer for monitoring file system changes.
         event_handler: Event handler for processing document-related events.
         observer_initialized: Flag indicating whether the observer has been initialized.
         observer_thread: Thread for running the observer.
         supported_extensions: List of file extensions that the processor will handle.
-        loaded_files_path: Path to the file containing hashes of already processed files.
-        loaded_files: Set of hashes of already processed files, loaded from the specified path.
+        timezone: Timezone to handle dates.
     """
     def __init__(self):
         self.desktop_path = os.path.join(os.path.expanduser("~"), "Documents", "ACUNAO-Data")
