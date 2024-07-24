@@ -41,7 +41,11 @@ with st.sidebar:
     st.title("💬 ACUNAO Chatbot")
     st.subheader("Chat with your documents")
     st.markdown(
-        """An AI assistant programmed to answer questions and provide information based on the documents you provide. It will only answer within the context you provide and should not deviate from the documents provided. If the AI assistant's answer is not based on the context, please let our lab know."""
+        """
+        An AI assistant programmed to answer questions and provide information based on the documents you provide. If the AI assistant's answer is not based on the context, please let our lab know.  
+
+        Press control + c  in the terminal or command line to stop the assistant.
+        """
         )
 
     # Specify the desktop path and folder name for files storage
@@ -94,6 +98,7 @@ st.info(
     1. Open ACUNAO-Data folder in your computer's Documents folder.  
     2. Create a new folder with your project name to create a new project.  
     3. Add documents into the folder and your AI assistant is ready to answer your questions!   
+    4. Navigate to the terminal or command line and press control + c to stop the assistant.   
 
     **Pro tip:** Organize your project by creating separate folders for different topics inside your project to create separate databases!""")
 
@@ -116,9 +121,13 @@ embeddings = init_embedding()
 
 # Initiate llm based on database selected
 if selected_db != None:
+    st.warning("Initating selected database...")
     assistant = ChatPDFAssistant(selected_db, embeddings)
+    st.success("Database initiated! Assistant is ready.", icon="✅")
 else: 
+    st.warning("Initating selected database...")
     assistant = ChatPDFAssistant(embeddings=embeddings)
+    st.success("Database initiated! Assistant is ready.", icon="✅")
 
 # Respond to user query
 if st.session_state.messages[-1]["role"] != "assistant":
@@ -157,13 +166,13 @@ while processor_thread.is_alive():
                 placeholder.warning("Processing document...")
                 processor.event_handler.process_start = False
             elif processor.event_handler.process_end:
-                st.success("Done! Finished processing document.", icon="✅")
+                placeholder.success("Done! Finished processing document.", icon="✅")
                 processor.event_handler.process_end = False
             elif processor.event_handler.del_process_start:
                 placeholder.warning("Deleting document...")
                 processor.event_handler.del_process_start = False
             elif processor.event_handler.del_process_end:
-                st.success("Done! Document deleted.", icon="✅")
+                placeholder.success("Done! Document deleted.", icon="✅")
                 processor.event_handler.del_process_end = False
         except KeyboardInterrupt:
             break
