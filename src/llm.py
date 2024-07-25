@@ -1,7 +1,7 @@
 import sys
 from langchain_core.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
-from embeddings import initialize_embeddings_and_db
+from utils.embeddings import initialize_embeddings_and_db
 from langchain_community.chat_models import ChatOllama
 from langchain_community.vectorstores import Chroma
 # from langchain_community.embeddings import SentenceTransformerEmbeddings
