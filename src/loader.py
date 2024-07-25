@@ -1,6 +1,6 @@
 import os
-from embeddings import initialize_embeddings_and_db
-from pdfparser import PDFLoader
+from utils.embeddings import initialize_embeddings_and_db
+from utils.pdfparser import PDFLoader
 from langchain_community.vectorstores.utils import filter_complex_metadata
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
@@ -11,6 +11,7 @@ import time
 import json
 from datetime import datetime
 from pytz import timezone
+from docx2pdf import convert
 
 
 class DocumentEventHandler(FileSystemEventHandler):
@@ -33,7 +34,7 @@ class DocumentEventHandler(FileSystemEventHandler):
         normalized_path = os.path.normpath(event.src_path)
         path_parts = normalized_path.split(os.sep)
         
-        if event.is_directory or not event.src_path.endswith(tuple(self.processor.supported_extensions)):
+        if event.is_directory or not event.src_path.endswith(tuple(self.processor.supported_extensions)) or self.should_ignore(event.src_path):
             return None
 
         database_index = path_parts.index("ACUNAO-Data")
@@ -53,6 +54,13 @@ class DocumentEventHandler(FileSystemEventHandler):
                 self.processor.embeddings, self.processor.client, self.processor.vectordb, self.processor.text_splitter = initialize_embeddings_and_db(self.processor.folder_name)
                 self.processor.delete_from_vector_db(event.src_path)
                 self.del_process_end = True
+
+    def should_ignore(self, path):
+        # Ignore files ending with '.tmp' or starting with '~'
+        filename = os.path.basename(path)
+        if filename.endswith('.tmp') or filename.startswith('~'):
+            return True
+        return False
 
 class DocumentProcessor:
     """
@@ -85,7 +93,7 @@ class DocumentProcessor:
         self.event_handler = None
         self.observer_initialized = False
         self.observer_thread = None
-        self.supported_extensions = [".pdf"]
+        self.supported_extensions = [".pdf", ".docx"]
         self.timezone = timezone('America/New_York') # Datetime defaults to EST
 
     def save_file_metadata(self, metadata, metadata_file):
@@ -114,54 +122,91 @@ class DocumentProcessor:
 
     def update_vector_db(self, file_path):
         file_extension = os.path.splitext(file_path)[1]
-        filename = Path(file_path).name
-        database = os.path.dirname(os.path.abspath(file_path))
-        metadata_file = os.path.join(database, "metadata.json")
-        size = os.path.getsize(file_path)/1000
-        modified_at = time.strftime('%Y-%m-%dT%H:%M:%S', time.localtime(os.path.getmtime(file_path)))
-    
-        # Load existing metadata if the file exists
-        if os.path.exists(metadata_file):
-            with open(metadata_file, 'r') as f:
-                metadata = json.load(f)
-        else:
-            metadata = {}
 
-        # Skip files that have already been processed
-        if filename in metadata and metadata[filename]["modified_at"] == modified_at:
-            logging.info("Skipping already processed file: %s", file_path)
-            return
+        if file_extension == ".docx":
+            filename = Path(file_path).name
+            database = os.path.dirname(os.path.abspath(file_path))
+            metadata_file = os.path.join(database, "metadata.json")
+            size = os.path.getsize(file_path)/1000
+            modified_at = time.strftime('%Y-%m-%dT%H:%M:%S', time.localtime(os.path.getmtime(file_path)))
 
-        else:
-            print("Changes detected in folder. Updating vector database...")
-            self.event_handler.process_start = True
-            start_time = time.time()
-            t1_start = time.process_time() 
+            # Load existing metadata if the file exists
+            if os.path.exists(metadata_file):
+                with open(metadata_file, 'r') as f:
+                    metadata = json.load(f)
+            else:
+                metadata = {}
 
-            logging.info("Processing file: %s", file_path)
+            # Skip files that have already been processed
+            if filename in metadata and metadata[filename]["modified_at"] == modified_at:
+                logging.info("Skipping already processed file: %s", file_path)
+                return
+            
+            else: 
+                start_time = time.time()
+                t1_start = time.process_time() 
 
-            loader = PDFLoader(file_path)
+                convert(file_path)
 
-            documents = loader.load()
-            text_chunks = filter_complex_metadata(self.text_splitter.split_documents(documents))
+                end_time = time.time()
+                t1_stop = time.process_time()
 
-            self.vectordb.add(
-                documents=[doc.page_content for doc in text_chunks],
-                metadatas=[doc.metadata for doc in text_chunks],
-                ids=[str(uuid.uuid4()) for _ in range(len(text_chunks))]
-            )
+                clock_time = "{:.2f}".format(end_time - start_time)
+                cpu_time = "{:.2f}".format(t1_stop - t1_start)
+                datenow, timenow = datetime.now(self.timezone).isoformat().split("T")
 
-            logging.info("File processed: %s", file_path)
-            end_time = time.time()
-            t1_stop = time.process_time()
+                self.add_file_metadata(metadata, filename, database, datenow, timenow, modified_at, clock_time, cpu_time, size, file_extension)
+                self.save_file_metadata(metadata, metadata_file)
+        
+        elif file_extension == ".pdf":
+            filename = Path(file_path).name
+            database = os.path.dirname(os.path.abspath(file_path))
+            metadata_file = os.path.join(database, "metadata.json")
+            size = os.path.getsize(file_path)/1000
+            modified_at = time.strftime('%Y-%m-%dT%H:%M:%S', time.localtime(os.path.getmtime(file_path)))
+        
+            # Load existing metadata if the file exists
+            if os.path.exists(metadata_file):
+                with open(metadata_file, 'r') as f:
+                    metadata = json.load(f)
+            else:
+                metadata = {}
 
-            clock_time = "{:.2f}".format(end_time - start_time)
-            cpu_time = "{:.2f}".format(t1_stop - t1_start)
-            datenow, timenow = datetime.now(self.timezone).isoformat().split("T")
+            # Skip files that have already been processed
+            if filename in metadata and metadata[filename]["modified_at"] == modified_at:
+                logging.info("Skipping already processed file: %s", file_path)
+                return
 
-            self.add_file_metadata(metadata, filename, database, datenow, timenow, modified_at, clock_time, cpu_time, size, file_extension)
-            self.save_file_metadata(metadata, metadata_file)
-            self.event_handler.process_end = True
+            else:
+                print("Changes detected in folder. Updating vector database...")
+                self.event_handler.process_start = True
+                start_time = time.time()
+                t1_start = time.process_time() 
+
+                logging.info("Processing file: %s", file_path)
+
+                loader = PDFLoader(file_path)
+
+                documents = loader.load()
+                text_chunks = filter_complex_metadata(self.text_splitter.split_documents(documents))
+
+                self.vectordb.add(
+                    documents=[doc.page_content for doc in text_chunks],
+                    metadatas=[doc.metadata for doc in text_chunks],
+                    ids=[str(uuid.uuid4()) for _ in range(len(text_chunks))]
+                )
+
+                logging.info("File processed: %s", file_path)
+                end_time = time.time()
+                t1_stop = time.process_time()
+
+                clock_time = "{:.2f}".format(end_time - start_time)
+                cpu_time = "{:.2f}".format(t1_stop - t1_start)
+                datenow, timenow = datetime.now(self.timezone).isoformat().split("T")
+
+                self.add_file_metadata(metadata, filename, database, datenow, timenow, modified_at, clock_time, cpu_time, size, file_extension)
+                self.save_file_metadata(metadata, metadata_file)
+                self.event_handler.process_end = True
 
     def delete_from_vector_db(self, file_path):
         filename = Path(file_path).name
