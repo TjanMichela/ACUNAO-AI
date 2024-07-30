@@ -27,11 +27,11 @@ git clone https://github.com/luquelab/ACUNAO.git
 ```
 2. **Navigate to project directory**
 ```bash
-cd ACUNAO
+cd ./ACUNAO
 ```  
   or 
 ```bash
-cd ACUNAO-main
+cd ./ACUNAO-main
 ```  
 3. **Create a virtual environment**
   Note: In MacOS, make sure that Xcode is installed. To do this, run this command in your terminal: ```xcode-select –-install```
