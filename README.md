@@ -27,12 +27,13 @@ git clone https://github.com/luquelab/ACUNAO.git
 ```
 2. **Navigate to project directory**
 ```bash
-cd ./ACUNAO
+cd ACUNAO
 ```  
   or 
 ```bash
-cd ./ACUNAO-main
-```  
+cd ACUNAO-main
+```
+  Note: if you are new to the terminal, PowerShell or CommandPrompt, run `ls` to see the current directory and `cd` to navigate to the ACUNAO folder.
 3. **Create a virtual environment**
   Note: In MacOS, make sure that Xcode is installed. To do this, run this command in your terminal: ```xcode-select –-install```
 ```bash
