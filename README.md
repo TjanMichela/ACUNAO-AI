@@ -19,31 +19,43 @@ Due to the rapid growth of AI, especially since the launch of ChatGPT, there has
 
 ## Installation
 
-To set up ACUNAO AI locally, follow these steps:
+To set up ACUNAO AI locally, follow these steps in your terminal, PowerShell, or CommandPrompt:
 
-1. **Clone the repository**
+1. **Clone the repository** or **Download the repository**
 ```bash
 git clone https://github.com/luquelab/ACUNAO.git
 ```
 2. **Navigate to project directory**
 ```bash
 cd ACUNAO
-```
+```  
+  or 
+```bash
+cd ACUNAO-main
+```  
 3. **Create a virtual environment**
+  Note: In MacOS, make sure that Xcode is installed. To do this, run this command in your terminal: ```xcode-select –-install```
 ```bash
 python -m venv venv
 ```
 4. **Activate the virtual environment**
 
-For macOS and Linux: ```source venv/bin/activate```
+  For macOS and Linux: ```source venv/bin/activate```
 
-For Windows: ```venv\Scripts\activate``` or ```.\venv\Scripts\Activate.ps1```
+  For Windows: ```venv\Scripts\activate``` or ```.\venv\Scripts\Activate.ps1```
+  If it doesn't work on Windows PowerShell, run `set-executionpolicy RemoteSigned`
 
 5. **Install dependencies**
 ```bash
 pip install -r src/requirements.txt
 ```
-6. **Run the application**
+
+6. **Install the LLM**
+```bash
+ollama pull phi3:medium-128k
+```
+
+7. **Run the application**
 ```bash
 streamlit run src/app.py
 ```
