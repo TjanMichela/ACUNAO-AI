@@ -58,7 +58,7 @@ or
 ```
 .\venv\Scripts\Activate.ps1
 ```
-If it doesn't work on Windows PowerShell, run: 
+If it doesn't work on Windows PowerShell, run the following code before activating the environment using the code above: 
 ```
 set-executionpolicy RemoteSigned
 ```
