@@ -64,6 +64,22 @@ set-executionpolicy RemoteSigned
 ```
 
 5. **Install dependencies**
+
+5.1. For Mac:
+This project requires Tesseract to be installed on your system. You can install Tesseract using Homebrew with the following command:
+```bash
+brew install tesseract
+```
+Then:
+```bash
+pip install -r src/requirements.txt
+```  
+
+5.2. For Windows:  
+1. Download tesseract exe from https://github.com/UB-Mannheim/tesseract/wiki.
+2. Install this exe in C:\Program Files (x86)\Tesseract-OCR
+
+Then: 
 ```bash
 pip install -r src/requirements.txt
 ```
