@@ -36,16 +36,32 @@ cd ACUNAO-main
   Note: if you are new to the terminal, PowerShell or CommandPrompt, run `ls` to see the current directory and `cd` to navigate to the ACUNAO folder.  
 
 3. **Create a virtual environment**  
-  Note: In MacOS, make sure that Xcode is installed. To do this, run this command in your terminal: ```xcode-select –-install```
+  Note: In MacOS, make sure that Xcode is installed. To do this, run this command in your terminal:
+```
+xcode-select –-install
+```
 ```bash
 python3 -m venv venv
 ```
 4. **Activate the virtual environment**
 
-  For macOS and Linux: ```source venv/bin/activate```
+4.1 For macOS and Linux: 
+```
+source venv/bin/activate
+```
 
-  For Windows: ```venv\Scripts\activate``` or ```.\venv\Scripts\Activate.ps1```
-  If it doesn't work on Windows PowerShell, run `set-executionpolicy RemoteSigned`
+4.2 For Windows: 
+```
+venv\Scripts\activate
+```
+or 
+```
+.\venv\Scripts\Activate.ps1
+```
+If it doesn't work on Windows PowerShell, run: 
+```
+set-executionpolicy RemoteSigned
+```
 
 5. **Install dependencies**
 ```bash
