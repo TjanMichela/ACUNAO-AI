@@ -86,8 +86,9 @@ pip install -r src/requirements.txt
 
 6. **Install the LLM**  
 Download Ollama from the following link: https://ollama.com/
+Then open the app and install Ollama.  
 
-8. **Run the application**
+7. **Run the application**
 ```bash
 streamlit run src/app.py
 ```
