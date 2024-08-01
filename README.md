@@ -45,12 +45,12 @@ python3 -m venv venv
 ```
 4. **Activate the virtual environment**
 
-4.1 For macOS and Linux: 
+  4.1. For macOS and Linux: 
 ```
 source venv/bin/activate
 ```
 
-4.2 For Windows: 
+  4.2. For Windows: 
 ```
 venv\Scripts\activate
 ```
@@ -63,9 +63,9 @@ If it doesn't work on Windows PowerShell, run the following code before activati
 set-executionpolicy RemoteSigned
 ```
 
-5. **Install dependencies**
+5. **Install dependencies**  
 
-5.1. For Mac:
+  5.1. For Mac:  
 This project requires Tesseract to be installed on your system. You can install Tesseract using Homebrew with the following command:
 ```bash
 brew install tesseract
@@ -75,21 +75,19 @@ Then:
 pip install -r src/requirements.txt
 ```  
 
-5.2. For Windows:  
+  5.2. For Windows:  
 1. Download tesseract exe from https://github.com/UB-Mannheim/tesseract/wiki.
 2. Install this exe in C:\Program Files (x86)\Tesseract-OCR
 
-Then: 
+  Then: 
 ```bash
 pip install -r src/requirements.txt
 ```
 
-6. **Install the LLM**
-```bash
-ollama pull phi3:medium-128k
-```
+6. **Install the LLM**  
+Download Ollama from the following link: https://ollama.com/
 
-7. **Run the application**
+8. **Run the application**
 ```bash
 streamlit run src/app.py
 ```
