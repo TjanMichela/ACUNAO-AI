@@ -161,31 +161,37 @@ def init_processor():
     processor = DocumentProcessor()
     return processor
 
-# Initiate document processor in a separate thread
-processor = init_processor()
-processor_thread = threading.Thread(target=processor.run, daemon=True)
-processor_thread.start()
+# # Initiate document processor in a separate thread
+# processor = init_processor()
+# processor_thread = threading.Thread(target=processor.run, daemon=True)
+# processor_thread.start()
+
+# Initiate document processor and thread if not already done
+if 'processor' not in st.session_state:
+    st.session_state.processor = init_processor()
+    st.session_state.processor_thread = threading.Thread(target=st.session_state.processor.run, daemon=True)
+    st.session_state.processor_thread.start()
 
 # Messages while document is processing 
-while processor_thread.is_alive():
+while st.session_state.processor_thread.is_alive():
     # Display status of document processing 
     time.sleep(2)
-    if processor.event_handler is not None:
+    if st.session_state.processor.event_handler is not None:
         try:
             placeholder = st.empty()
-            if processor.event_handler.process_start:
+            if st.session_state.processor.event_handler.process_start:
                 placeholder.warning("New document detected!")
                 time.sleep(3)
                 placeholder.warning("Processing document...")
-                processor.event_handler.process_start = False
-            elif processor.event_handler.process_end:
+                st.session_state.processor.event_handler.process_start = False
+            elif st.session_state.processor.event_handler.process_end:
                 placeholder.success("Done! Finished processing document.", icon="✅")
-                processor.event_handler.process_end = False
-            elif processor.event_handler.del_process_start:
+                st.session_state.processor.event_handler.process_end = False
+            elif st.session_state.processor.event_handler.del_process_start:
                 placeholder.warning("Deleting document...")
-                processor.event_handler.del_process_start = False
-            elif processor.event_handler.del_process_end:
+                st.session_state.processor.event_handler.del_process_start = False
+            elif st.session_state.processor.event_handler.del_process_end:
                 placeholder.success("Done! Document deleted.", icon="✅")
-                processor.event_handler.del_process_end = False
+                st.session_state.processor.event_handler.del_process_end = False
         except KeyboardInterrupt:
             break
