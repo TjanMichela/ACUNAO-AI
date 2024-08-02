@@ -2,7 +2,6 @@ import os
 import chromadb
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from chromadb.utils import embedding_functions
-import shutil
 
 
 def initialize_embeddings_and_db(folder_name):
@@ -18,22 +17,6 @@ def initialize_embeddings_and_db(folder_name):
     # Create the folder if it doesn't exist
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
-
-    if folder_name == "project_example":
-        src_folder_path = "./data/2_test_data"
-        dest_folder_path = os.path.join(desktop_path, folder_name)
-        for item in os.listdir(src_folder_path):
-            s = os.path.join(src_folder_path, item)
-            d = os.path.join(dest_folder_path, item)
-
-            # Skip .md files
-            if os.path.isfile(s) and s.endswith('.md'):
-                continue
-            
-            if os.path.isdir(s):
-                shutil.copytree(s, d, dirs_exist_ok=True)
-            else:
-                shutil.copy2(s, d)
     
     # Initialize embeddings
     embeddings = embedding_functions.SentenceTransformerEmbeddingFunction("nomic-ai/nomic-embed-text-v1.5", trust_remote_code=True)

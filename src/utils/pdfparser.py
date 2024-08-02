@@ -47,16 +47,17 @@ def rasterize_paper(
     if outpath is None:
         return_pil = True
     try:
-        pdf_doc = pymupdf.open(pdf)
-        if pages is None:
-            pages = range(len(pdf_doc))
-        for i in pages:
-            page_bytes = pdf_doc[i].get_pixmap(dpi=dpi).pil_tobytes(format="PNG")
-            if return_pil:
-                pillow_images.append(io.BytesIO(page_bytes))
-            else:
-                with (outpath / ("%02d.png" % (i + 1))).open("wb") as f:
-                    f.write(page_bytes)
+        with pymupdf.open(pdf) as pdf_doc:
+            if pages is None:
+                pages = range(len(pdf_doc))
+            for i in pages:
+                page_bytes = pdf_doc[i].get_pixmap(dpi=dpi).tobytes("png")
+                if return_pil:
+                    pillow_images.append(io.BytesIO(page_bytes))
+                else:
+                    outpath.mkdir(parents=True, exist_ok=True)
+                    with (outpath / f"{i + 1:02d}.png").open("wb") as f:
+                        f.write(page_bytes)
     except Exception as e:
         print(f"Error rasterizing PDF: {e}")
         return None
