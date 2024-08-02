@@ -12,6 +12,7 @@ import json
 from datetime import datetime
 from pytz import timezone
 from docx2pdf import convert
+import shutil
 
 
 class DocumentEventHandler(FileSystemEventHandler):
@@ -229,6 +230,21 @@ class DocumentProcessor:
             self.save_file_metadata(metadata, metadata_file)
 
     def run(self):
+        if self.folder_name == "project_example":
+            src_folder_path = "./data/2_test_data"
+            dest_folder_path = os.path.join(self.desktop_path, self.folder_name)
+            for item in os.listdir(src_folder_path):
+                s = os.path.join(src_folder_path, item)
+                d = os.path.join(dest_folder_path, item)
+                # Skip .md files
+                if os.path.isfile(s) and s.endswith('.md'):
+                    continue
+                # Copy the files to the directory
+                if os.path.isdir(s):
+                    shutil.copytree(s, d, dirs_exist_ok=True)
+                else:
+                    shutil.copy2(s, d)
+
         self.embeddings, self.client, self.vectordb, self.text_splitter = initialize_embeddings_and_db(self.folder_name)
         if not self.observer_initialized:
             self.initialize_observer()

@@ -8,6 +8,7 @@ import threading
 import time
 from langchain.callbacks.streamlit import StreamlitCallbackHandler
 from langchain_community.embeddings import SentenceTransformerEmbeddings
+import ollama
 
 
 st.set_page_config(page_title="💬 ACUNAO Chatbot", layout="wide")
@@ -88,6 +89,15 @@ def init_embedding():
     embeddings = SentenceTransformerEmbeddings(model_name="nomic-ai/nomic-embed-text-v1.5", model_kwargs={"trust_remote_code":True})
     return embeddings
 
+@st.cache_resource
+def init_llm():
+    try:
+        model_list = ollama.list()
+        if "phi3:medium-128k" not in model_list:
+            ollama.pull("phi3:medium-128k")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
 st.title("💬 ACUNAO Chatbot")
 
 st.info(
@@ -118,6 +128,9 @@ if prompt := st.chat_input():
 
 # Initiate the embeddings for llm
 embeddings = init_embedding()
+
+# Initiate the llm
+init_llm()
 
 # Initiate llm based on database selected
 if selected_db != None:
