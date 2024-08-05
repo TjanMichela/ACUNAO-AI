@@ -4,7 +4,6 @@ from langchain.chains import RetrievalQA
 from utils.embeddings import initialize_embeddings_and_db
 from langchain_community.chat_models import ChatOllama
 from langchain_community.vectorstores import Chroma
-# from langchain_community.embeddings import SentenceTransformerEmbeddings
 from langchain.callbacks.base import BaseCallbackHandler
 
 
@@ -43,7 +42,7 @@ class ChatPDFAssistant:
 
 
         # Initialize the language model
-        self.llm = ChatOllama(model="phi3:medium-128k", temperature=0.0)
+        self.llm = ChatOllama(model="phi3:medium-128k", temperature=0)
 
 
         self.DEFAULT_SYSTEM_PROMPT = """

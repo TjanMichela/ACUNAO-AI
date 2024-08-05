@@ -13,6 +13,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers.string import StrOutputParser
 import os
 from transformers import pipeline
+import torch
 
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
@@ -80,7 +81,8 @@ class PDFLoader:
     def __init__(self, pdf_path: Path):
         self.pdf_path = pdf_path
         self.elements = []
-        self.pipe = pipeline("object-detection", model="microsoft/table-transformer-detection", device="cpu")
+        self.device = "cuda:0" if torch.cuda.is_available() else "cpu"
+        self.pipe = pipeline("object-detection", model="microsoft/table-transformer-detection", device=self.device)
 
     def load(self):
         images, filepath = rasterize_paper(self.pdf_path, return_pil=True)
