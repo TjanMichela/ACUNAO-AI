@@ -161,11 +161,6 @@ def init_processor():
     processor = DocumentProcessor()
     return processor
 
-# # Initiate document processor in a separate thread
-# processor = init_processor()
-# processor_thread = threading.Thread(target=processor.run, daemon=True)
-# processor_thread.start()
-
 # Initiate document processor and thread if not already done
 if 'processor' not in st.session_state:
     st.session_state.processor = init_processor()
