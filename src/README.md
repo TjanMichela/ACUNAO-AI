@@ -30,7 +30,7 @@ src/
 
 Before running the code, ensure that you have set up the project as described in the main [README](../README.md) file in the root directory. This includes creating a virtual environment and installing dependencies.
 
-## Running the Code
+### Running the Code
 
 To run the main application, navigate to the `src` folder and execute the following command:
 
