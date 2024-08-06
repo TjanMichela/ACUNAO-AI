@@ -17,7 +17,7 @@ Due to the rapid growth of AI, especially since the launch of ChatGPT, there has
     * [Contributors](#contributors)
 * [License](#license)
 
-## Installation
+## Installation THIS SECTION IS NOT READY AND NEEDS UPDATE!!
 
 To set up ACUNAO AI locally, follow these steps in your terminal, PowerShell, or CommandPrompt:  
 
