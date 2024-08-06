@@ -1,23 +1,19 @@
 
 # ACUNAO AI
 
-## Description
+## Folder Description  
 
-An AI assistant as a domain expert of the lab’s documents that has the ability to answer users’ queries accurately. The user must be able to trust the answers given by the AI assistant and give input in order for the AI assistant to continuously learn how to better respond to users’ queries. 
-
-Due to the rapid growth of AI, especially since the launch of ChatGPT, there has been a drastic increase in AI products and services. These products and services have mostly been developed to appeal to the general public. There is a lack of AI solution to support interdisciplinary research labs whose documents could accumulate so quickly, which leads to misplaced or forgotten information. The nature of these documents also poses as a problem since they are generally complex and confidential. ACUNAO aims to bridge this gap.
+This folder contains the Jupyter Notebooks used for experimentation and testing purposes. Start with the `dev.ipynb` file. Naming convention for new notebooks should reflect the main changes in the notebook. For example: `add-multiquery-retriever.ipynb`.  
 
 ## Table of Contents
 
 * [Installation](#installation)
-* [Documentation](#documentation)
 * [Project History](#project-history)
-* [Folder's descriptions](#folders-descriptions)
 * [Maintainers](#maintainers)
     * [Contributors](#contributors)
 * [License](#license)
 
-## Installation   
+## Installation
 
 To set up ACUNAO AI locally, follow these steps in your terminal, PowerShell, or CommandPrompt:  
 
@@ -86,21 +82,10 @@ pip install -r src/requirements.txt
 
 6. **Install the LLM**  
 Download Ollama from the following link: https://ollama.com/
-Then open the app, install Ollama, and keep Ollama open.   
+Then open the app, install Ollama, and keep Ollama open.  
 
-7. **Run the application**  
+7. **You're Now Ready to Use the Jupyter Notebook!**  
 
-  7.1. Run the Streamlit prototype:  
-```bash
-streamlit run src/app.py
-```
-  
-  7.2. Run the dev Jupyter Notebook:  
-  Navigate to the `dev.ipynb` file within the dev folder.   
-
-## Documentation
-
-ACUNAO's documentation is available as a GitHub-pages website accessible at [add later]. The documentation's source files are located in this repository at https://github.com/luquelab/ACUNAO/tree/main/docs.
 
 ## Project History
 
@@ -110,12 +95,6 @@ Started: 2024-06-03
 
 End: Ongoing
 
-## Folder's descriptions
-
-* `/data`: Files used for testing purposes.
-* `/dev`: Jupyter Notebooks used for experimentation and testing. 
-* `/docs`: This folder contains the project's documentation.
-* `/src`: Project's source codes.
 
 ## Maintainers
 
