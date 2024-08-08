@@ -43,7 +43,8 @@ xcode-select –-install
 ```bash
 python3 -m venv venv
 ```
-For Conda users, skip to step 5. 
+For Conda users, skip to step 5.  
+
 4. **Activate the virtual environment**
 
   4.1. For macOS and Linux: 
