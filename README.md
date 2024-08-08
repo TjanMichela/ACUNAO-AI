@@ -78,9 +78,12 @@ pip install -r src/requirements.txt
 ```  
 If you are a Conda user, use the following commands:  
 ```
-conda create --name <env_name> --file src/requirements.txt
+conda create --name venv --file src/requirements.txt
 ```
 Then:  
+```
+conda activate venv
+```
 ```
 conda install -c conda-forge tesseract
 ```
