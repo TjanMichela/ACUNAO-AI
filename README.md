@@ -70,7 +70,7 @@ set-executionpolicy RemoteSigned
   5.1.1. For Conda Users:   
 
 ```
-conda create --name venv --file src/requirements.txt
+conda create --name venv --file requirements.txt
 ```
 ```
 conda activate venv
@@ -95,7 +95,7 @@ brew install tesseract
 ```
 Then:
 ```bash
-pip install -r src/requirements.txt
+pip install -r requirements.txt
 ```  
 
   5.3. For Windows:  
@@ -104,7 +104,7 @@ pip install -r src/requirements.txt
 
   Then: 
 ```bash
-pip install -r src/requirements.txt
+pip install -r requirements.txt
 ```
 
 6. **Install the LLM**  
