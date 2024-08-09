@@ -43,6 +43,8 @@ xcode-select –-install
 ```bash
 python3 -m venv venv
 ```
+For Conda users, skip to step 5.  
+
 4. **Activate the virtual environment**
 
   4.1. For macOS and Linux: 
@@ -65,7 +67,28 @@ set-executionpolicy RemoteSigned
 
 5. **Install dependencies**  
 
-  5.1. For Mac:  
+  5.1.1. For Conda Users:   
+
+```
+conda create --name venv --file src/requirements.txt
+```
+```
+conda activate venv
+```
+```
+conda install -c conda-forge tesseract
+```
+
+  5.1.2. For Conda Users: (Alternative)  
+
+```
+conda env create --name venv --file=environments.yml
+```
+```
+conda activate venv
+```
+
+  5.2. For Mac:  
 This project requires Tesseract to be installed on your system. You can install Tesseract using Homebrew with the following command:
 ```bash
 brew install tesseract
@@ -75,7 +98,7 @@ Then:
 pip install -r src/requirements.txt
 ```  
 
-  5.2. For Windows:  
+  5.3. For Windows:  
 1. Download tesseract exe from https://github.com/UB-Mannheim/tesseract/wiki.
 2. Install this exe in `C:\Program Files (x86)\Tesseract-OCR`
 
@@ -85,7 +108,9 @@ pip install -r src/requirements.txt
 ```
 
 6. **Install the LLM**  
-Download Ollama from the following link: https://ollama.com/
+
+Download Ollama from the following link: https://ollama.com/  
+
 Then open the app, install Ollama, and keep Ollama open.   
 
 7. **Run the application**  
