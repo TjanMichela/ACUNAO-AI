@@ -99,8 +99,23 @@ pip install -r requirements.txt
 ```  
 
   5.3. For Windows:  
-1. Download tesseract exe from https://github.com/UB-Mannheim/tesseract/wiki.
-2. Install this exe in `C:\Program Files (x86)\Tesseract-OCR`
+
+If you are a Conda user, use the following commands:  
+```
+conda create --name venv --file src/requirements.txt
+```
+Then:  
+```
+conda activate venv
+```
+```
+conda install -c conda-forge tesseract
+```
+
+  5.2. For Windows:  
+  
+1. Download tesseract exe from https://github.com/UB-Mannheim/tesseract/wiki  
+2. Install this exe in `C:\Program Files (x86)\Tesseract-OCR`   
 
   Then: 
 ```bash
@@ -109,7 +124,7 @@ pip install -r requirements.txt
 
 6. **Install the LLM**  
 
-Download Ollama from the following link: https://ollama.com/  
+Download Ollama from the following link: https://ollama.com/    
 
 Then open the app, install Ollama, and keep Ollama open.   
 
