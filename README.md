@@ -67,15 +67,39 @@ set-executionpolicy RemoteSigned
 
 5. **Install dependencies**  
 
-  5.1. For Mac:  
+  5.1.1. For Conda Users:   
+
+```
+conda create --name venv --file requirements.txt
+```
+```
+conda activate venv
+```
+```
+conda install -c conda-forge tesseract
+```
+
+  5.1.2. For Conda Users: (Alternative)  
+
+```
+conda env create --name venv --file=environments.yml
+```
+```
+conda activate venv
+```
+
+  5.2. For Mac:  
 This project requires Tesseract to be installed on your system. You can install Tesseract using Homebrew with the following command:
 ```bash
 brew install tesseract
 ```
 Then:
 ```bash
-pip install -r src/requirements.txt
+pip install -r requirements.txt
 ```  
+
+  5.3. For Windows:  
+
 If you are a Conda user, use the following commands:  
 ```
 conda create --name venv --file src/requirements.txt
@@ -87,17 +111,21 @@ conda activate venv
 ```
 conda install -c conda-forge tesseract
 ```
+
   5.2. For Windows:  
-1. Download tesseract exe from https://github.com/UB-Mannheim/tesseract/wiki.
-2. Install this exe in `C:\Program Files (x86)\Tesseract-OCR`
+  
+1. Download tesseract exe from https://github.com/UB-Mannheim/tesseract/wiki  
+2. Install this exe in `C:\Program Files (x86)\Tesseract-OCR`   
 
   Then: 
 ```bash
-pip install -r src/requirements.txt
+pip install -r requirements.txt
 ```
 
 6. **Install the LLM**  
-Download Ollama from the following link: https://ollama.com/  
+
+Download Ollama from the following link: https://ollama.com/    
+
 Then open the app, install Ollama, and keep Ollama open.   
 
 7. **Run the application**  
