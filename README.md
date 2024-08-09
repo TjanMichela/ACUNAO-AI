@@ -97,7 +97,7 @@ pip install -r src/requirements.txt
 ```
 
 6. **Install the LLM**  
-Download Ollama from the following link: https://ollama.com/
+Download Ollama from the following link: https://ollama.com/  
 Then open the app, install Ollama, and keep Ollama open.   
 
 7. **Run the application**  
