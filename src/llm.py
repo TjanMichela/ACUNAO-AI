@@ -42,7 +42,7 @@ class ChatPDFAssistant:
 
 
         # Initialize the language model
-        self.llm = ChatOllama(model="phi3:medium-128k", temperature=0)
+        self.llm = ChatOllama(base_url="http://localhost:11434", model="phi3:medium-128k", temperature=0)
 
 
         self.DEFAULT_SYSTEM_PROMPT = """
