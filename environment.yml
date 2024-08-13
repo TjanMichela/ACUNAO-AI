@@ -13,20 +13,22 @@ dependencies:
   - Levenshtein=0.25.1
   - nltk=3.8.1
   - ollama
-  - opencv-contrib-python=4.10.0.84
+  - pip
+  - pip:
+    - opencv-contrib-python=4.10.0.84
+    - pymupdf
+    - pytesseract
+    - streamlit
+    - tokenizers
+    - torch
+    - transformers
+    - watchdog=4.0.1
+    - docx2pdf
   - pillow
   - pillow_heif
   - pydantic
   - pydantic_core
-  - pymupdf
-  - pytesseract
   - python-Levenshtein
   - sentence-transformers=2.5.0
-  - streamlit
   - tesseract
   - timm
-  - tokenizers
-  - torch
-  - transformers
-  - watchdog=4.0.1
-  - docx2pdf
