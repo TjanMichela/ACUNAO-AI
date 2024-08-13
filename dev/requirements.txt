@@ -20,6 +20,7 @@ streamlit
 timm
 tokenizers
 torch
+torchvision
 transformers
 watchdog==4.0.1
 docx2pdf
