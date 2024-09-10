@@ -164,8 +164,10 @@ set-executionpolicy RemoteSigned
 
 5. **Install dependencies**  
   
-1. Download tesseract exe from https://github.com/UB-Mannheim/tesseract/wiki  
-2. Install this exe in `C:\Program Files (x86)\Tesseract-OCR`   
+  5.1. Download tesseract exe from https://github.com/UB-Mannheim/tesseract/wiki  
+  
+  5.2. Install this exe in `C:\Program Files (x86)\Tesseract-OCR`   
+  
 
   Then: 
 ```bash
