@@ -190,10 +190,9 @@ class PDFLoader:
                 else:
                     pass
 
-            if texts:
-                texts = "\n".join(texts)
-                self.elements.append(Element(type="text", page_content=texts, metadata=metadata))
-                print("text appended")
+            texts = "\n".join(texts)
+            self.elements.append(Element(type="text", page_content=texts, metadata=metadata))
+            print("text appended")
 
     def summarize_tables(self):
         llm = ChatOllama(model="phi3:medium-128k", temperature=0)
