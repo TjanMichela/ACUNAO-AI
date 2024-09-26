@@ -1,4 +1,5 @@
 chromadb
+clipboard
 einops==0.8.0
 langchain==0.1.20
 langchain-community
