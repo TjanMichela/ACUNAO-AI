@@ -7,8 +7,11 @@ An AI assistant as a domain expert of the lab’s documents that has the ability
 
 Due to the rapid growth of AI, especially since the launch of ChatGPT, there has been a drastic increase in AI products and services. These products and services have mostly been developed to appeal to the general public. There is a lack of AI solution to support interdisciplinary research labs whose documents could accumulate so quickly, which leads to misplaced or forgotten information. The nature of these documents also poses as a problem since they are generally complex and confidential. ACUNAO aims to bridge this gap.
 
+Note: Read the [Usage Notice](#usage-notice) section before following the [Pre-installation](#pre-installation) and [Installation](#installation) instructions.
+
 ## Table of Contents
 
+* [Usage Notice](#usage-notice)
 * [Pre-installation](#pre-installation)
 * [Installation](#installation)
    * [Conda-environment](#conda-environment)
@@ -20,6 +23,11 @@ Due to the rapid growth of AI, especially since the launch of ChatGPT, there has
 * [Maintainers](#maintainers)
     * [Contributors](#contributors)
 * [License](#license)
+
+## Usage Notice
+This repository contains the ACUNAO AI prototype and it is important to note that there is a wait time for the LLM to be pulled.  
+
+**Please be patient when running ACUNAO AI for the first time.**  
 
 ## Pre-installation
 Do the following for get your computer ready for local LLM inference.  
