@@ -9,9 +9,14 @@ import time
 from langchain.callbacks.streamlit import StreamlitCallbackHandler
 from langchain_community.embeddings import SentenceTransformerEmbeddings
 import ollama
+import clipboard
 
 
 st.set_page_config(page_title="💬 ACUNAO Chatbot", layout="wide")
+
+def on_copy_click(text):
+    st.session_state.copied.append(text)
+    clipboard.copy(text)
 
 def open_folder(path):
     """
@@ -112,6 +117,9 @@ st.info(
 
     **Pro tip:** Organize your project by creating separate folders for different topics inside your project to create separate databases!""")
 
+if "copied" not in st.session_state.keys(): 
+    st.session_state.copied = []
+
 if "messages" not in st.session_state.keys():
     # Set the initial AI message
     st.session_state.messages = [{"role": "assistant", "content": "How may I assist you today?"}]
@@ -153,8 +161,14 @@ if st.session_state.messages[-1]["role"] != "assistant":
                         ) # Callback for RAG chain
         response = assistant.chat(prompt, st_cb=[st_cb, retrieval_handler])
         st.markdown(response)
+            
+        st.button("📋", on_click=on_copy_click, args=(response,))
+
     message = {"role": "assistant", "content": response}
     st.session_state.messages.append(message)
+
+for text in st.session_state.copied:
+    st.toast(f"Copied to clipboard: {text}", icon='✅' )
 
 @st.cache_resource
 def init_processor():
