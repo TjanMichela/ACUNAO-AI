@@ -16,8 +16,8 @@ from transformers import pipeline
 import torch
 from utils.embeddings import initialize_embeddings_and_db
 
+# Comment the following out when making changes locally
 pytesseract.pytesseract.tesseract_cmd = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'tesseract/tesseract'))
-
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
