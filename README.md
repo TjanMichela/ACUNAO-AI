@@ -7,43 +7,31 @@ An AI assistant as a domain expert of the lab’s documents that has the ability
 
 Due to the rapid growth of AI, especially since the launch of ChatGPT, there has been a drastic increase in AI products and services. These products and services have mostly been developed to appeal to the general public. There is a lack of AI solution to support interdisciplinary research labs whose documents could accumulate so quickly, which leads to misplaced or forgotten information. The nature of these documents also poses as a problem since they are generally complex and confidential. ACUNAO aims to bridge this gap.
 
-Note: Read the [Usage Notice](#usage-notice) section before following the [Pre-installation](#pre-installation) and [Installation](#installation) instructions.
+**Note: The following instructions is for Mac-OS. If you are a Windows user, please follow the `windows-os` branch**
 
 ## Table of Contents
 
-* [Usage Notice](#usage-notice)
-* [Pre-installation](#pre-installation)
+* [Download LLM](#download-llm)
 * [Installation](#installation)
    * [Conda-environment](#conda-environment)
    * [MacOS no conda](#macos-no-conda)
-   * [Windows no conda](#windows-no-conda)
-* [Run Application](#run-application)   
 * [Documentation](#documentation)
 * [Project History](#project-history)
 * [Folder's descriptions](#folders-descriptions)
 * [Maintainers](#maintainers)
     * [Contributors](#contributors)
-* [License](#license)
+* [License](#license)  
 
-## Usage Notice
-This repository contains the ACUNAO AI prototype and it is important to note that there is a wait time for the LLM to be pulled.  
+## Download LLM
+Please follow the following instructions prior to installing the AI Assistant.  
 
-**Please be patient when running ACUNAO AI for the first time.**  
-
-## Pre-installation
-Do the following for get your computer ready for local LLM inference.  
-
-**Install the LLM**  
-
-Download Ollama from the following link: https://ollama.com/    
-
-Then open the app, install Ollama, and keep Ollama open when using ACUNAO.  
-
+1. Navigate to the following link https://huggingface.co/bartowski/Phi-3.5-mini-instruct-GGUF/blob/main/Phi-3.5-mini-instruct-Q8_0.gguf  
+2. Click the download button to download the LLM.  
 
 ## Installation   
-Follow the proper instructions based on your package manager, environment management system, and operating system. If you use Conda as your environment management system,follow the instructions found in [Conda-environment](#conda-environment). If you use MacOS without Conda, follow the instructions found in [MacOS no conda](#macos-no-conda). If you use Windows without Conda, follow the instructions found in [Windows no conda](#windows-no-conda).  
+Follow the proper instructions based on your package manager, environment management system, and operating system. If you use Conda as your environment management system,follow the instructions found in [Conda-environment](#conda-environment). If you use MacOS without Conda, follow the instructions found in [MacOS no conda](#macos-no-conda).  
 
-To set up ACUNAO AI locally, follow these steps in your terminal, PowerShell, or CommandPrompt:  
+To set up ACUNAO AI locally, follow these steps in your terminal or VS Code terminal:  
 
 ### Conda-environment  
 
@@ -61,7 +49,10 @@ cd ACUNAO-main
 ```
   Note: if you are new to the terminal, PowerShell or CommandPrompt, run `ls` to see the current directory and `cd` to navigate to the ACUNAO folder.  
 
-3. **Install dependencies**  
+3. **Add the LLM**  
+Move the downloaded LLM to the `ACUNAO/data/2_test_data/` folder, replacing the existing pointer file: `Phi-3.5-mini-instruct-Q8_0.gguf`.  
+
+4. **Install dependencies**  
 
 ```
 conda env create --name venv --file=environment.yml
@@ -69,15 +60,17 @@ conda env create --name venv --file=environment.yml
 ```
 conda activate venv
 ```  
+```
+sh ./post_install.sh
+```
 
-4. **[Run the application](#run-application)**  
-Run the streamlit prototype with the following command: 
+5. **Run the application**  
+
+Run the Streamlit prototype:  
 ```bash
 streamlit run src/app.py
-```  
-
+```
 Note: During first run, you will be prompted to add your email for marketing subscription from Streamlit. You have the option to add your email and press enter, or hit the enter key to skip adding your email to the marketing subscription. 
-
 
 ### MacOS No Conda  
 
@@ -96,7 +89,10 @@ cd ACUNAO-main
 ```
   Note: if you are new to the terminal, PowerShell or CommandPrompt, run `ls` to see the current directory and `cd` to navigate to the ACUNAO folder.  
 
-3. **Create a virtual environment**  
+3. **Add the LLM**  
+Move the downloaded LLM to the `ACUNAO/data/2_test_data/` folder.  
+
+4. **Create a virtual environment**  
   Note: In MacOS, make sure that Xcode is installed. To do this, run this command in your terminal:  
 ```
 xcode-select –-install
@@ -105,13 +101,13 @@ xcode-select –-install
 python3 -m venv venv
 ```
 
-4. **Activate the virtual environment**  
+5. **Activate the virtual environment**  
 
 ```
 source venv/bin/activate
 ```  
 
-5. **Install dependencies**  
+6. **Install dependencies**  
 
 This project requires Tesseract to be installed on your system. You can install Tesseract using Homebrew with the following command:
 ```bash
@@ -121,84 +117,19 @@ Then:
 ```bash
 pip install -r requirements.txt
 ```  
+And then:  
+```
+sh ./post_install.sh
+```
 
-6. **[Run the application](#run-application)**  
-Run the streamlit prototype with the following command: 
+7. **Run the application**  
+
+Run the Streamlit prototype:  
 ```bash
 streamlit run src/app.py
-```  
-
+```
 Note: During first run, you will be prompted to add your email for marketing subscription from Streamlit. You have the option to add your email and press enter, or hit the enter key to skip adding your email to the marketing subscription. 
 
-
-### Windows No Conda  
-
-1. **Clone the repository** or **Download the repository**  
-```bash
-git clone https://github.com/luquelab/ACUNAO.git
-```
-
-2. **Navigate to project directory**  
-```bash
-cd ACUNAO
-```  
-  or 
-```bash
-cd ACUNAO-main
-```
-  Note: if you are new to the terminal, PowerShell or CommandPrompt, run `ls` to see the current directory and `cd` to navigate to the ACUNAO folder.  
-
-3. **Create a virtual environment**  
-```bash
-python3 -m venv venv
-```
-
-4. **Activate the virtual environment**
-
-```
-venv\Scripts\activate
-```
-or 
-```
-.\venv\Scripts\Activate.ps1
-```
-
-If it doesn't work on Windows PowerShell, run the following code before activating the environment using the code above: 
-```
-set-executionpolicy RemoteSigned
-```
-
-5. **Install dependencies**  
-  
-  5.1. Download tesseract exe from https://github.com/UB-Mannheim/tesseract/wiki  
-  
-  5.2. Install this exe in `C:\Program Files (x86)\Tesseract-OCR`   
-  
-
-  Then: 
-```bash
-pip install -r requirements.txt
-```
-
-6. **[Run the application](#run-application)**  
-Run the streamlit prototype with the following command: 
-```bash
-streamlit run src/app.py
-```  
-
-Note: During first run, you will be prompted to add your email for marketing subscription from Streamlit. You have the option to add your email and press enter, or hit the enter key to skip adding your email to the marketing subscription. 
-
-
-## Run Application
-
-1. Open your Terminal, PowerShell, or Command Prompt in your computer.  
-2. Navigate to the project directory using the Terminal, PowerShell, or Command Prompt.
-3. Run the streamlit prototype with the following command: 
-```bash
-streamlit run src/app.py
-```  
-
-Note: During first run, you will be prompted to add your email for marketing subscription from Streamlit. You have the option to add your email and press enter, or hit the enter key to skip adding your email to the marketing subscription. 
 
 ## Documentation
 

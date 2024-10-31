@@ -1,22 +1,22 @@
 import os
 import streamlit as st
-from loader import DocumentProcessor
-from llm import ChatPDFAssistant, PrintRetrievalHandler
+from utils.loader import DocumentProcessor
+from utils.llm import ChatPDFAssistant #PrintRetrievalHandler
+from utils.embeddings import initialize_embeddings_and_db
 import subprocess
 import platform
 import threading
 import time
-from langchain.callbacks.streamlit import StreamlitCallbackHandler
-from langchain_community.embeddings import SentenceTransformerEmbeddings
-import ollama
-import clipboard
+from langchain_community.chat_models import ChatLlamaCpp
+# from langchain_community.callbacks import StreamlitCallbackHandler
+# from langchain_community.embeddings import SentenceTransformerEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
+# import ollama
+from streamlit.runtime.scriptrunner import add_script_run_ctx
+# from langchain_core.callbacks.base import BaseCallbackHandler
 
 
 st.set_page_config(page_title="💬 ACUNAO Chatbot", layout="wide")
-
-def on_copy_click(text):
-    st.session_state.copied.append(text)
-    clipboard.copy(text)
 
 def open_folder(path):
     """
@@ -34,7 +34,7 @@ def get_folders(base_path):
     folders = []
     for root, dirs, _ in os.walk(base_path):
         # Filter out "vectordb" and hidden folders
-        dirs[:] = [d for d in dirs if d.lower() != "vectordb" and not d.startswith('.')]
+        dirs[:] = [d for d in dirs if d.lower() != "vectordb" and d.lower() != "llm" and not d.startswith('.')]
         for dir in dirs:
             # Store relative path of the folder
             folders.append(os.path.relpath(os.path.join(root, dir), base_path))
@@ -55,7 +55,7 @@ with st.sidebar:
         )
 
     # Specify the desktop path and folder name for files storage
-    desktop_path = os.path.join(os.path.expanduser("~"), "Documents")
+    desktop_path = os.path.join(os.path.expanduser("~/Documents"))
     folder_name = "ACUNAO-Data"
     folder_path = os.path.join(desktop_path, folder_name)
 
@@ -91,17 +91,31 @@ with st.sidebar:
 
 @st.cache_resource
 def init_embedding():
-    embeddings = SentenceTransformerEmbeddings(model_name="nomic-ai/nomic-embed-text-v1.5", model_kwargs={"trust_remote_code":True})
+    embeddings = HuggingFaceEmbeddings(model_name="nomic-ai/nomic-embed-text-v1.5", model_kwargs={"trust_remote_code":True})
     return embeddings
+
+# @st.cache_resource
+# def init_llm():
+#     try:
+#         model_list = ollama.list()
+#         if "phi3:medium-128k" not in model_list:
+#             ollama.pull("phi3:medium-128k")
+#     except Exception as e:
+#         print(f"An error occurred: {e}")
 
 @st.cache_resource
 def init_llm():
-    try:
-        model_list = ollama.list()
-        if "phi3:medium-128k" not in model_list:
-            ollama.pull("phi3:medium-128k")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+    _, _, _, _, llm_model = initialize_embeddings_and_db("project_example")
+    llm = ChatLlamaCpp(
+        model_path = llm_model,
+        n_gpu_layers = -1, 
+        n_batch = 256,
+        f16_kv = True,
+        temperature = 0.0,
+        n_ctx = 4500,
+        streaming=True
+    )
+    return llm
 
 st.title("💬 ACUNAO Chatbot")
 
@@ -116,9 +130,6 @@ st.info(
     4. Navigate to the terminal or command line and press control + c to stop the assistant.   
 
     **Pro tip:** Organize your project by creating separate folders for different topics inside your project to create separate databases!""")
-
-if "copied" not in st.session_state.keys(): 
-    st.session_state.copied = []
 
 if "messages" not in st.session_state.keys():
     # Set the initial AI message
@@ -138,37 +149,56 @@ if prompt := st.chat_input():
 embeddings = init_embedding()
 
 # Initiate the llm
-init_llm()
+llm = init_llm()
 
 # Initiate llm based on database selected
 if selected_db != None:
-    st.warning("Initating selected database...")
-    assistant = ChatPDFAssistant(selected_db, embeddings)
+    st.warning("Initiating selected database...")
+    assistant = ChatPDFAssistant(db=selected_db, embeddings=embeddings, llm=llm)
     st.success("Database initiated! Assistant is ready.", icon="✅")
 else: 
-    st.warning("Initating selected database...")
-    assistant = ChatPDFAssistant(embeddings=embeddings)
+    st.warning("Initiating selected database...")
+    assistant = ChatPDFAssistant(embeddings=embeddings, llm=llm)
     st.success("Database initiated! Assistant is ready.", icon="✅")
 
 # Respond to user query
 if st.session_state.messages[-1]["role"] != "assistant":
     with st.chat_message("assistant"):
-        retrieval_handler = PrintRetrievalHandler(st.container()) # Callback for retriever
-        st_cb = StreamlitCallbackHandler(
-                        st.container(),
-                        collapse_completed_thoughts=True,
-                        expand_new_thoughts=True,
-                        ) # Callback for RAG chain
-        response = assistant.chat(prompt, st_cb=[st_cb, retrieval_handler])
-        st.markdown(response)
-            
-        st.button("📋", on_click=on_copy_click, args=(response,))
+        # retrieval_handler = PrintRetrievalHandler(st.container()) # Callback for retriever
+        # st_cb = StreamlitCallbackHandler(
+        #                 st.container(),
+        #                 collapse_completed_thoughts=True,
+        #                 expand_new_thoughts=True,
+        #                 ) # Callback for RAG chain
+        # add_script_run_ctx(threading.current_thread())
+        # response = assistant.chat(prompt, st_cb=[retrieval_handler])
+        with st.status("Retrieving documents", expanded=True) as status:
+            output = assistant.chat(prompt)
+
+            # Context Retrieval status container
+            with st.container():
+                st.write(f"**Question:** {output['input']}")
+                
+                for i, doc in enumerate(output['context']):
+                    source = doc.metadata.get("source", "File directory not available.")
+                    page_number = doc.metadata.get("page", "Page number not available.")
+                    
+                    st.write(f"**Document {i+1}**")
+                    st.markdown(f"**Source**: {source} **Page**: {page_number}")
+                    st.markdown(doc.page_content)
+
+            status.update(label="Documents are retrieved!", state="complete", expanded=False)
+
+        response = output["answer"]
+        def stream_ans():
+            for word in response.split(" "):
+                yield word + " "
+                time.sleep(0.02)
+
+        st.write_stream(stream_ans)
 
     message = {"role": "assistant", "content": response}
     st.session_state.messages.append(message)
-
-for text in st.session_state.copied:
-    st.toast(f"Copied to clipboard: {text}", icon='✅' )
 
 @st.cache_resource
 def init_processor():
@@ -179,10 +209,12 @@ def init_processor():
 if 'processor' not in st.session_state:
     st.session_state.processor = init_processor()
     st.session_state.processor_thread = threading.Thread(target=st.session_state.processor.run, daemon=True)
+    add_script_run_ctx(st.session_state.processor_thread)
     st.session_state.processor_thread.start()
 
 # Messages while document is processing 
 while st.session_state.processor_thread.is_alive():
+    add_script_run_ctx(st.session_state.processor_thread)
     # Display status of document processing 
     time.sleep(2)
     if st.session_state.processor.event_handler is not None:

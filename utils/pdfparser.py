@@ -8,12 +8,15 @@ import cv2
 import numpy as np
 import pytesseract
 from pytesseract import Output
-from langchain_community.chat_models import ChatOllama
+from langchain_community.chat_models import ChatLlamaCpp
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers.string import StrOutputParser
 import os
 from transformers import pipeline
 import torch
+from utils.embeddings import initialize_embeddings_and_db
+
+pytesseract.pytesseract.tesseract_cmd = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'tesseract/tesseract'))
 
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
@@ -83,6 +86,9 @@ class PDFLoader:
         self.elements = []
         self.device = "cuda:0" if torch.cuda.is_available() else "cpu"
         self.pipe = pipeline("object-detection", model="microsoft/table-transformer-detection", device=self.device)
+        # Initialize embeddings and vector database
+        self.db="project_example"
+        _, self.client, self.vectordb, self.text_splitter, self.llm_model = initialize_embeddings_and_db(self.db)
 
     def load(self):
         images, filepath = rasterize_paper(self.pdf_path, return_pil=True)
@@ -195,7 +201,16 @@ class PDFLoader:
             print("text appended")
 
     def summarize_tables(self):
-        llm = ChatOllama(model="phi3:medium-128k", temperature=0)
+        # llm = ChatOllama(model="phi3:medium-128k", temperature=0)
+        llm = ChatLlamaCpp(
+            model_path = self.llm_model,
+            n_gpu_layers = -1, 
+            n_batch = 256,
+            f16_kv = True,
+            temperature = 0.0,
+            verbose = True,
+            n_ctx = 4500
+        )
         prompt_text = """
         You are an assistant tasked with summarizing tables. \n 
         Give a detailed summary of the table. Do not use your pre-conceived notion and summarize exclusively with the information in the table. It is very important that you only provide the final output without any additional comments or remarks. Table: {element} 

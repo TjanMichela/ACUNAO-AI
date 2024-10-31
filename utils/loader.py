@@ -47,12 +47,12 @@ class DocumentEventHandler(FileSystemEventHandler):
         if len(self.processor.folder_name) != 0: 
             if event.event_type in ['created', 'modified']:
                 if not self.process_start:  # Only process if not already processing
-                    self.processor.embeddings, self.processor.client, self.processor.vectordb, self.processor.text_splitter = initialize_embeddings_and_db(self.processor.folder_name)
+                    self.processor.embeddings, self.processor.client, self.processor.vectordb, self.processor.text_splitter, self.processor.llm = initialize_embeddings_and_db(self.processor.folder_name)
                     self.processor.update_vector_db(event.src_path)
 
             elif event.event_type == 'deleted':
                 self.del_process_start = True
-                self.processor.embeddings, self.processor.client, self.processor.vectordb, self.processor.text_splitter = initialize_embeddings_and_db(self.processor.folder_name)
+                self.processor.embeddings, self.processor.client, self.processor.vectordb, self.processor.text_splitter, self.processor.llm = initialize_embeddings_and_db(self.processor.folder_name)
                 self.processor.delete_from_vector_db(event.src_path)
                 self.del_process_end = True
 
@@ -83,12 +83,13 @@ class DocumentProcessor:
         timezone: Timezone to handle dates.
     """
     def __init__(self):
-        self.desktop_path = os.path.join(os.path.expanduser("~"), "Documents", "ACUNAO-Data")
+        self.desktop_path = os.path.join(os.path.expanduser("~/Documents"), "ACUNAO-Data")
         self.folder_name = "project_example" 
         self.folder_path = os.path.join(self.desktop_path, self.folder_name)
         self.vectordb = None
         self.embeddings = None
         self.text_splitter = None
+        self.llm = None
         self.files = []
         self.observer = None
         self.event_handler = None
@@ -237,7 +238,8 @@ class DocumentProcessor:
 
     def run(self):
         if self.folder_name == "project_example":
-            src_folder_path = "./data/2_test_data"
+            current_dir = os.path.dirname(os.path.realpath(__file__))
+            src_folder_path = os.path.join(current_dir, "data")
             dest_folder_path = os.path.join(self.desktop_path, self.folder_name)
             for item in os.listdir(src_folder_path):
                 s = os.path.join(src_folder_path, item)
@@ -247,11 +249,11 @@ class DocumentProcessor:
                     continue
                 # Copy the files to the directory
                 if os.path.isdir(s):
-                    shutil.copytree(s, d, dirs_exist_ok=True)
+                    shutil.copytree(s, d, dirs_exist_ok=True, copy_function = shutil.copy2)
                 else:
                     shutil.copy2(s, d)
 
-        self.embeddings, self.client, self.vectordb, self.text_splitter = initialize_embeddings_and_db(self.folder_name)
+        self.embeddings, self.client, self.vectordb, self.text_splitter, self.llm = initialize_embeddings_and_db(self.folder_name)
         if not self.observer_initialized:
             self.initialize_observer()
 

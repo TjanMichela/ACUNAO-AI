@@ -1,11 +1,13 @@
 chromadb
-clipboard
 einops==0.8.0
-langchain==0.1.20
+langchain==0.3.3
 langchain-community
 langchain-core
 langchain-text-splitters
+langchain-chroma
+langchain-huggingface
 Levenshtein==0.25.1
+llama-cpp-python
 nltk==3.8.1
 ollama
 opencv-contrib-python==4.10.0.84
@@ -16,7 +18,7 @@ pydantic_core
 PyMuPDF
 pytesseract
 python-Levenshtein
-sentence-transformers==2.5.0
+sentence-transformers
 streamlit
 timm
 tokenizers
