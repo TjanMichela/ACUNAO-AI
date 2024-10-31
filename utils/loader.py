@@ -245,7 +245,7 @@ class DocumentProcessor:
                 s = os.path.join(src_folder_path, item)
                 d = os.path.join(dest_folder_path, item)
                 # Skip .md files
-                if os.path.isfile(s) and s.endswith('.md'):
+                if os.path.isfile(s) and s.endswith('.md') or s.endswith(".gguf"):
                     continue
                 # Copy the files to the directory
                 if os.path.isdir(s):
