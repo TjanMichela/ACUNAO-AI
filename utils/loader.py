@@ -247,6 +247,8 @@ class DocumentProcessor:
                 # Skip .md files
                 if os.path.isfile(s) and s.endswith('.md') or s.endswith(".gguf"):
                     continue
+                if os.path.isfile(s) and s.endswith(".txt"):
+                    shutil.copy2(s, self.desktop_path)
                 # Copy the files to the directory
                 if os.path.isdir(s):
                     shutil.copytree(s, d, dirs_exist_ok=True, copy_function = shutil.copy2)
