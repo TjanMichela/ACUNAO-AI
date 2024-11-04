@@ -183,12 +183,11 @@ class PDFLoader:
                     x, y, w, h = cv2.boundingRect(c)
                     area = cv2.contourArea(c)
                     if w/h > 2 and area > 10000:
-                        contours_found = True  # Set flag to True if contour meets criteria
+                        contours_found = True  
                     else:
                         pass
                 
                 if contours_found:
-                    # Avoid appending texts from figures i.e. graph axis values
                     text = pytesseract.image_to_string(roi, config=custom_config, lang="eng").replace("\n", " ")
                     cleaned = text
                     cleaned = ''.join(e for e in cleaned if e.isalnum())

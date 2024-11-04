@@ -5,7 +5,7 @@
 
 An AI assistant as a domain expert of the lab’s documents that has the ability to answer users’ queries accurately. The user must be able to trust the answers given by the AI assistant and give input in order for the AI assistant to continuously learn how to better respond to users’ queries. 
 
-Due to the rapid growth of AI, especially since the launch of ChatGPT, there has been a drastic increase in AI products and services. These products and services have mostly been developed to appeal to the general public. There is a lack of AI solution to support interdisciplinary research labs whose documents could accumulate so quickly, which leads to misplaced or forgotten information. The nature of these documents also poses as a problem since they are generally complex and confidential. ACUNAO aims to bridge this gap.
+Due to the rapid growth of AI, especially since the launch of ChatGPT, there has been a drastic increase in AI products and services. These products and services have mostly been developed to appeal to the general public. There is a lack of AI solution to support interdisciplinary research labs whose documents could accumulate so quickly, which leads to misplaced or forgotten information. The nature of these documents also poses as a problem since they are generally complex and confidential. ACUNAO AI aims to bridge this gap.
 
 **Note: The following instructions is for Mac-OS. If you are a Windows user, please follow the `windows-os` branch**
 
@@ -36,20 +36,20 @@ To set up ACUNAO AI locally, follow these steps in your terminal or VS Code term
 
 1. **Clone the repository** or **Download the repository**  
 ```bash
-git clone https://github.com/luquelab/ACUNAO.git
+git clone https://github.com/luquelab/ACUNAO-AI.git
 ```  
 2. **Navigate to project directory**  
 ```bash
-cd ACUNAO
+cd ACUNAO-AI
 ```  
   or 
 ```bash
-cd ACUNAO-main
+cd ACUNAO-AI-main
 ```
-  Note: if you are new to the terminal, PowerShell or CommandPrompt, run `ls` to see the current directory and `cd` to navigate to the ACUNAO folder.  
+  Note: if you are new to the terminal, PowerShell or CommandPrompt, run `ls` to see the current directory and `cd` to navigate to the ACUNAO-AI folder.  
 
 3. **Add the LLM**  
-Move the downloaded LLM to the `ACUNAO/data/2_test_data/` folder, replacing the existing pointer file: `Phi-3.5-mini-instruct-Q8_0.gguf`.  
+Move the downloaded LLM to the `ACUNAO-AI/utils/data/` folder, replacing the existing pointer file: `Phi-3.5-mini-instruct-Q8_0.gguf`.  
 
 4. **Install dependencies**  
 
@@ -75,21 +75,21 @@ Note: During first run, you will be prompted to add your email for marketing sub
 
 1. **Clone the repository** or **Download the repository**  
 ```bash
-git clone https://github.com/luquelab/ACUNAO.git
+git clone https://github.com/luquelab/ACUNAO-AI.git
 ```
 
 2. **Navigate to project directory**  
 ```bash
-cd ACUNAO
+cd ACUNAO-AI
 ```  
   or 
 ```bash
-cd ACUNAO-main
+cd ACUNAO-AI-main
 ```
-  Note: if you are new to the terminal, PowerShell or CommandPrompt, run `ls` to see the current directory and `cd` to navigate to the ACUNAO folder.  
+  Note: if you are new to the terminal, PowerShell or CommandPrompt, run `ls` to see the current directory and `cd` to navigate to the ACUNAO-AI folder.  
 
 3. **Add the LLM**  
-Move the downloaded LLM to the `ACUNAO/data/2_test_data/` folder.  
+Move the downloaded LLM to the `ACUNAO-AI/utils/data/` folder.  
 
 4. **Create a virtual environment**  
   Note: In MacOS, make sure that Xcode is installed. To do this, run this command in your terminal:  
@@ -132,7 +132,7 @@ Note: During first run, you will be prompted to add your email for marketing sub
 
 ## Documentation
 
-ACUNAO's documentation is available as a GitHub-pages website accessible at [add later]. The documentation's source files are located in this repository at https://github.com/luquelab/ACUNAO/tree/main/docs.
+ACUNAO AI's documentation is available as a GitHub-pages website accessible at [add later]. The documentation's source files are located in this repository at https://github.com/luquelab/ACUNAO-AI/tree/main/docs.
 
 ## Project History
 
@@ -145,9 +145,8 @@ End: Ongoing
 ## Folder's descriptions
 
 * `/data`: Files used for testing purposes.
-* `/dev`: Jupyter Notebooks used for experimentation and testing. 
-* `/docs`: This folder contains the project's documentation.
-* `/src`: Project's source codes.
+* `/hooks`: This folder contains the hooks for creating the executable.
+* `/utils`: Project's source codes.
 
 ## Maintainers
 
