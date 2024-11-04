@@ -22,27 +22,17 @@ def initialize_embeddings_and_db(folder_name):
             os.makedirs(folder_path)
 
     # Copy llm to the ACUNAO-Data folder
-    dest_folder_path = os.path.join(desktop_path, "llm")
-    # dest_file_path = os.path.join(dest_folder_path, "Phi-3-medium-128k-instruct-Q4_K_S.gguf.zip")
-    # llm = os.path.join(dest_folder_path, "Phi-3-medium-128k-instruct-Q4_K_S.gguf")
+    dest_folder_path = os.path.join(desktop_path, ".llm")
 
     llm = os.path.join(dest_folder_path, "Phi-3.5-mini-instruct-Q8_0.gguf")
 
     if not os.path.exists(dest_folder_path):
          os.makedirs(dest_folder_path)
 
-    # llm_path = "./data/2_test_data/Phi-3-medium-128k-instruct-Q4_K_S.gguf.zip"
     llm_path = os.path.join(os.path.dirname(os.path.realpath(__file__)),"data/Phi-3.5-mini-instruct-Q8_0.gguf")
 
     if not os.path.isfile(llm):
         shutil.copy2(llm_path, dest_folder_path)
-
-    # if not os.path.isfile(dest_file_path) or not os.path.isfile(llm):
-    #     shutil.copy2(llm_path, dest_folder_path)
-    #     with zipfile.ZipFile(dest_file_path, 'r') as zip_ref:
-    #         zip_ref.extractall(dest_folder_path)
-
-    
     
     # Initialize embeddings
     embeddings = embedding_functions.SentenceTransformerEmbeddingFunction("nomic-ai/nomic-embed-text-v1.5", trust_remote_code=True)
