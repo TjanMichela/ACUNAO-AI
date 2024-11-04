@@ -14,9 +14,14 @@ from langchain_huggingface import HuggingFaceEmbeddings
 # import ollama
 from streamlit.runtime.scriptrunner import add_script_run_ctx
 # from langchain_core.callbacks.base import BaseCallbackHandler
+import clipboard
 
 
 st.set_page_config(page_title="💬 ACUNAO Chatbot", layout="wide")
+
+def on_copy_click(text):
+    st.session_state.copied.append(text)
+    clipboard.copy(text)
 
 def open_folder(path):
     """
@@ -131,6 +136,9 @@ st.info(
 
     **Pro tip:** Organize your project by creating separate folders for different topics inside your project to create separate databases!""")
 
+if "copied" not in st.session_state.keys(): 
+    st.session_state.copied = []
+
 if "messages" not in st.session_state.keys():
     # Set the initial AI message
     st.session_state.messages = [{"role": "assistant", "content": "How may I assist you today?"}]
@@ -196,6 +204,7 @@ if st.session_state.messages[-1]["role"] != "assistant":
                 time.sleep(0.02)
 
         st.write_stream(stream_ans)
+        st.button("📋", on_click=on_copy_click, args=(response,))
 
     message = {"role": "assistant", "content": response}
     st.session_state.messages.append(message)
