@@ -35,7 +35,7 @@ tmp_ret = collect_all('clipboard')
 datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
 
 a = Analysis(
-    ['run.py'],
+    ['ACUNAO-AI.py'],
     pathex=[],
     binaries=binaries,
     datas=datas,
@@ -54,7 +54,7 @@ exe = EXE(
     a.scripts,
     [],
     exclude_binaries=True,
-    name='run',
+    name='ACUNAO-AI',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -74,5 +74,5 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='run',
+    name='ACUNAO-AI',
 )

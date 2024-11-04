@@ -12,7 +12,7 @@ def initialize_embeddings_and_db(folder_name):
     chunk_overlap = 1000
 
     # Specify the desktop path and folder name for vector database storage
-    desktop_path = os.path.join(os.path.expanduser("~/Documents"), "ACUNAO-Data")
+    desktop_path = os.path.join(os.path.expanduser("~/Documents"), "ACUNAO-AI-Data")
     vdb_name = "vectordb"
     folder_path = os.path.join(desktop_path, folder_name, vdb_name)
 
@@ -21,7 +21,7 @@ def initialize_embeddings_and_db(folder_name):
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
 
-    # Copy llm to the ACUNAO-Data folder
+    # Copy llm to the ACUNAO-AI-Data folder
     dest_folder_path = os.path.join(desktop_path, ".llm")
 
     llm = os.path.join(dest_folder_path, "Phi-3.5-mini-instruct-Q8_0.gguf")
