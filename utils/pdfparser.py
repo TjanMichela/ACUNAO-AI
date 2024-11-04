@@ -15,6 +15,7 @@ import os
 from transformers import pipeline
 import torch
 from utils.embeddings import initialize_embeddings_and_db
+import re
 
 # Comment the following out when making changes locally
 pytesseract.pytesseract.tesseract_cmd = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'tesseract/tesseract'))
@@ -109,8 +110,10 @@ class PDFLoader:
         """
         Extract tables and texts from all images.
         """
+        in_reference_section = False
+
         for i, image in enumerate(images):
-            metadata = {"source": str(filepath), "page": i}
+            metadata = {"source": str(filepath), "page": i+1}
             image = Image.open(image).convert("RGB")
             results = self.pipe(image)
             image = np.array(image)
@@ -158,7 +161,7 @@ class PDFLoader:
             imag = cv2.threshold(cv2.medianBlur(imag, 3), 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
             bboxes = self.get_paragraph_bounding_boxes(final_img)
 
-            texts = []
+            all_texts = []
             custom_config = r"--oem 3 --psm 1"
             for bbox in bboxes:
                 x, y, w, h = bbox
@@ -192,12 +195,27 @@ class PDFLoader:
                     if cleaned.isdigit():
                         pass
                     else:
-                        texts.append(text)
+                        all_texts.append(text)
                 else:
                     pass
 
-            texts = "\n".join(texts)
-            self.elements.append(Element(type="text", page_content=texts, metadata=metadata))
+            reference_headings = ["References", "Bibliography", "Works Cited", "Literature Cited"]
+            reference_regex = re.compile(r'|'.join(reference_headings), re.IGNORECASE)
+
+            all_text = "\n".join(all_texts)
+
+            if not in_reference_section:
+                if reference_regex.search(all_text):
+                    in_reference_section = True
+
+            if in_reference_section:
+                citation_patterns = [r'\[\d+\]', r'\d+\.', r'(\bdoi\b|\bdoi.org\b|arxiv|vol|issn|isbn)']
+                citation_regex = re.compile('|'.join(citation_patterns), re.IGNORECASE)
+
+                if citation_regex.search(all_text):
+                    continue
+        
+            self.elements.append(Element(type="text", page_content=all_text, metadata=metadata))
             print("text appended")
 
     def summarize_tables(self):

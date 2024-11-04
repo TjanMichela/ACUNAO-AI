@@ -67,7 +67,7 @@ sh ./post_install.sh
 
 Run the Streamlit prototype:  
 ```bash
-streamlit run src/app.py
+python run.py
 ```
 Note: During first run, you will be prompted to add your email for marketing subscription from Streamlit. You have the option to add your email and press enter, or hit the enter key to skip adding your email to the marketing subscription. 
 
@@ -125,7 +125,7 @@ sh ./post_install.sh
 
 Run the Streamlit prototype:  
 ```bash
-streamlit run src/app.py
+python run.py
 ```
 Note: During first run, you will be prompted to add your email for marketing subscription from Streamlit. You have the option to add your email and press enter, or hit the enter key to skip adding your email to the marketing subscription. 
 
