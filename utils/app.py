@@ -123,7 +123,8 @@ st.info(
     1. Open ACUNAO-AI-Data folder in your computer's Documents folder.  
     2. Create a new folder with your project name to create a new project.  
     3. Add documents into the folder and your AI assistant is ready to answer your questions!   
-    4. Navigate to the terminal or command line and press control + c to stop the assistant.   
+
+    **Read the README.txt file if you haven't!**
 
     **Pro tip:** Organize your project by creating separate folders for different topics inside your project to create separate databases!""")
 

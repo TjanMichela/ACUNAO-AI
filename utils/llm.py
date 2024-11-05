@@ -3,7 +3,6 @@ from langchain_core.prompts import PromptTemplate
 from langchain.chains import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from utils.embeddings import initialize_embeddings_and_db
-from langchain_community.chat_models import ChatLlamaCpp
 from langchain_chroma import Chroma
 
 
@@ -15,16 +14,6 @@ class ChatPDFAssistant:
         _, self.client, self.vectordb, self.text_splitter, _ = initialize_embeddings_and_db(db)
 
         self.db = Chroma(client=self.client, collection_name="acunao-db",embedding_function=embeddings)
-
-        # self.llm = ChatLlamaCpp(
-        #     model_path = self.llm_model,
-        #     n_gpu_layers = -1, 
-        #     n_batch = 256,
-        #     f16_kv = True,
-        #     temperature = 0.0,
-        #     n_ctx = 4500,
-        #     streaming=True
-        # )
 
 
         self.DEFAULT_SYSTEM_PROMPT = """
