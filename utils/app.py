@@ -1,19 +1,16 @@
 import os
 import streamlit as st
 from utils.loader import DocumentProcessor
-from utils.llm import ChatPDFAssistant #PrintRetrievalHandler
+from utils.llm import ChatPDFAssistant 
 from utils.embeddings import initialize_embeddings_and_db
 import subprocess
 import platform
 import threading
 import time
 from langchain_community.chat_models import ChatLlamaCpp
-# from langchain_community.callbacks import StreamlitCallbackHandler
-# from langchain_community.embeddings import SentenceTransformerEmbeddings
 from langchain_huggingface import HuggingFaceEmbeddings
 # import ollama
 from streamlit.runtime.scriptrunner import add_script_run_ctx
-# from langchain_core.callbacks.base import BaseCallbackHandler
 import clipboard
 import json
 from datetime import datetime
@@ -166,14 +163,7 @@ else:
 # Respond to user query
 if st.session_state.messages[-1]["role"] != "assistant":
     with st.chat_message("assistant"):
-        # retrieval_handler = PrintRetrievalHandler(st.container()) # Callback for retriever
-        # st_cb = StreamlitCallbackHandler(
-        #                 st.container(),
-        #                 collapse_completed_thoughts=True,
-        #                 expand_new_thoughts=True,
-        #                 ) # Callback for RAG chain
-        # add_script_run_ctx(threading.current_thread())
-        # response = assistant.chat(prompt, st_cb=[retrieval_handler])
+
         with st.status("Retrieving documents", expanded=True) as status:
             response_log = os.path.join(folder_path, ".response_log.json")
 
