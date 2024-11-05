@@ -20,7 +20,7 @@ dependencies:
     - llama-cpp-python
     - numpy==1.26.4
     - nltk==3.8.1
-    - opencv-contrib-python==4.5.5.64
+    - opencv-contrib-python==4.8.0.76
     - pymupdf
     - pytesseract
     - pillow
