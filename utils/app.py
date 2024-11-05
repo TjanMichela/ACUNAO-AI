@@ -73,7 +73,7 @@ with st.sidebar:
     st.subheader("Quit app")
     st.markdown("Click button then close browser.")
     if st.button("Quit app"):
-        os.kill(os.getpid(), signal.SIGINT)
+        os.kill(os.getpid(), signal.SIGKILL)
 
     # Specify the desktop path and folder name for files storage
     desktop_path = os.path.join(os.path.expanduser("~/Documents"))
@@ -125,7 +125,8 @@ def init_llm():
         f16_kv = True,
         temperature = 0.0,
         n_ctx = 4500,
-        streaming=True
+        streaming=True,
+        max_tokens=1000
     )
     return llm
 
