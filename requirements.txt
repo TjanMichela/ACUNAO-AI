@@ -9,9 +9,10 @@ langchain-chroma
 langchain-huggingface
 Levenshtein==0.25.1
 llama-cpp-python
+numpy==1.26.4
 nltk==3.8.1
 ollama
-opencv-contrib-python==4.10.0.84
+opencv-contrib-python==4.5.5.64
 pillow
 pillow_heif
 pydantic
