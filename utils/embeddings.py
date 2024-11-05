@@ -3,7 +3,6 @@ import chromadb
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from chromadb.utils import embedding_functions
 import shutil
-import zipfile
 
 
 def initialize_embeddings_and_db(folder_name):

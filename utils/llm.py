@@ -1,37 +1,11 @@
 import sys
 from langchain_core.prompts import PromptTemplate
-# from langchain.chains import RetrievalQA
 from langchain.chains import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from utils.embeddings import initialize_embeddings_and_db
 from langchain_community.chat_models import ChatLlamaCpp
-# from langchain_core.callbacks import CallbackManager, StreamingStdOutCallbackHandler
 from langchain_chroma import Chroma
-# from langchain_core.callbacks.base import BaseCallbackHandler
 
-
-# class PrintRetrievalHandler(BaseCallbackHandler):
-#     """
-#     A callback handler for printing the status of context retrieval during a document search process. This handler updates the status container with the query, retrieved documents, and their metadata.
-
-#     Attributes:
-#         status: A status container object used for displaying retrieval status and document details.
-#     """
-#     def __init__(self, container):
-#         self.status = container.status("**Context Retrieval**")
-
-#     def on_retriever_start(self, serialized: dict, query: str, **kwargs):
-#         self.status.write(f"**Question:** {query}")
-#         self.status.update(label=f"**View Retrieved Sources:** {query}")
-
-#     def on_retriever_end(self, documents, **kwargs):
-#         for i, doc in enumerate(documents):
-#             source = doc.metadata.get("source", "File directory not available.")
-#             page_number = doc.metadata.get("page", "Page number not available.")
-#             self.status.write(f"**Document {i+1}**")
-#             self.status.markdown(f"**Source**: {source} **Page**: {page_number}")
-#             self.status.markdown(doc.page_content)
-#         self.status.update(state="complete")
 
 class ChatPDFAssistant:
     """Handles PDF ingestion, query processing, and answering queries using a chat model."""
