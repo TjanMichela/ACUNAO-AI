@@ -20,6 +20,16 @@ import os, signal
 
 st.set_page_config(page_title="💬 ACUNAO AI Chatbot", layout="wide")
 
+hide_streamlit_style = """
+<style>
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+.stAppDeployButton {visibility: hidden;}
+</style>
+
+"""
+st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
+
 def on_copy_click(text):
     st.session_state.copied.append(text)
     clipboard.copy(text)
