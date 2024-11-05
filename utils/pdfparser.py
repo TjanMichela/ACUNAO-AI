@@ -218,7 +218,6 @@ class PDFLoader:
             print("text appended")
 
     def summarize_tables(self):
-        # llm = ChatOllama(model="phi3:medium-128k", temperature=0)
         llm = ChatLlamaCpp(
             model_path = self.llm_model,
             n_gpu_layers = -1, 

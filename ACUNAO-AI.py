@@ -6,7 +6,6 @@ import os, sys
 
 
 def resolve_path(path):
-    # resolved_path = os.path.abspath(os.path.join(os.getcwd(), path))
     resolved_path = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), path))
     return resolved_path
 
