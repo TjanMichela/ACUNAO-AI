@@ -3,7 +3,7 @@ from PyInstaller.utils.hooks import collect_all
 from PyInstaller.utils.hooks import collect_data_files
 from PyInstaller.utils.hooks import copy_metadata
 
-datas = [("/opt/miniconda3/envs/venv-acunao-test/lib/python3.10/site-packages/streamlit/runtime", "./streamlit/runtime"), ("/opt/miniconda3/envs/venv-acunao-test/lib/python3.10/site-packages/streamlit/static","./streamlit/static"), ('utils', 'utils'), ('/opt/miniconda3/envs/venv-acunao-test/bin/tesseract', './tesseract/')]
+datas = [("/opt/miniconda3/envs/venv-acunao-test/lib/python3.10/site-packages/streamlit/runtime", "./streamlit/runtime"), ("/opt/miniconda3/envs/venv-acunao-test/lib/python3.10/site-packages/streamlit/static","./streamlit/static"), ('utils', 'utils'), ('/opt/miniconda3/envs/venv-acunao-test/bin/tesseract', './tesseract/'), ('/opt/miniconda3/envs/venv-acunao-test/share/tessdata', './tessdata/')]
 datas += collect_data_files("streamlit")
 datas += copy_metadata("streamlit")
 datas += collect_data_files("timm")

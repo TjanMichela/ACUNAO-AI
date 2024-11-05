@@ -20,6 +20,16 @@ import os, signal
 
 st.set_page_config(page_title="💬 ACUNAO AI Chatbot", layout="wide")
 
+hide_streamlit_style = """
+<style>
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+.stAppDeployButton {visibility: hidden;}
+</style>
+
+"""
+st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
+
 def on_copy_click(text):
     st.session_state.copied.append(text)
     clipboard.copy(text)
@@ -63,7 +73,7 @@ with st.sidebar:
     st.subheader("Quit app")
     st.markdown("Click button then close browser.")
     if st.button("Quit app"):
-        os.kill(os.getpid(), signal.SIGINT)
+        os.kill(os.getpid(), signal.SIGKILL)
 
     # Specify the desktop path and folder name for files storage
     desktop_path = os.path.join(os.path.expanduser("~/Documents"))
@@ -115,7 +125,8 @@ def init_llm():
         f16_kv = True,
         temperature = 0.0,
         n_ctx = 4500,
-        streaming=True
+        streaming=True,
+        max_tokens=1000
     )
     return llm
 

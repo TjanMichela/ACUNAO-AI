@@ -20,6 +20,7 @@ import re
 # Comment the following out when making changes locally
 pytesseract.pytesseract.tesseract_cmd = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'tesseract/tesseract'))
 
+os.environ["TESSDATA_PREFIX"] = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'tessdata'))
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 class Element(BaseModel):
@@ -225,7 +226,8 @@ class PDFLoader:
             f16_kv = True,
             temperature = 0.0,
             verbose = True,
-            n_ctx = 4500
+            n_ctx = 4500,
+            max_tokens=1000
         )
         prompt_text = """
         You are an assistant tasked with summarizing tables. \n 
