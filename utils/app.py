@@ -15,6 +15,9 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from streamlit.runtime.scriptrunner import add_script_run_ctx
 # from langchain_core.callbacks.base import BaseCallbackHandler
 import clipboard
+import json
+from datetime import datetime
+from pytz import timezone
 
 
 st.set_page_config(page_title="💬 ACUNAO AI Chatbot", layout="wide")
@@ -99,15 +102,6 @@ def init_embedding():
     embeddings = HuggingFaceEmbeddings(model_name="nomic-ai/nomic-embed-text-v1.5", model_kwargs={"trust_remote_code":True})
     return embeddings
 
-# @st.cache_resource
-# def init_llm():
-#     try:
-#         model_list = ollama.list()
-#         if "phi3:medium-128k" not in model_list:
-#             ollama.pull("phi3:medium-128k")
-#     except Exception as e:
-#         print(f"An error occurred: {e}")
-
 @st.cache_resource
 def init_llm():
     _, _, _, _, llm_model = initialize_embeddings_and_db("project_example")
@@ -181,7 +175,29 @@ if st.session_state.messages[-1]["role"] != "assistant":
         # add_script_run_ctx(threading.current_thread())
         # response = assistant.chat(prompt, st_cb=[retrieval_handler])
         with st.status("Retrieving documents", expanded=True) as status:
+            response_log = os.path.join(folder_path, ".response_log.json")
+
+            if os.path.exists(response_log):
+                with open(response_log, 'r') as f:
+                    log = json.load(f)
+            else:
+                log = {}
+
+            start_time = time.time()
+
             output = assistant.chat(prompt)
+
+            end_time = time.time()
+            clock_time = "{:.2f}".format(end_time - start_time)
+            datetime_now = datetime.now(timezone('America/New_York')).isoformat()
+
+            log[datetime_now] = {
+                "response_time": f"{clock_time}s",
+                "response": output["answer"]
+            }
+
+            with open(response_log, 'w') as f:
+                json.dump(log, f, indent=4)
 
             # Context Retrieval status container
             with st.container():
