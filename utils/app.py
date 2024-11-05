@@ -15,6 +15,7 @@ import clipboard
 import json
 from datetime import datetime
 from pytz import timezone
+import os, signal
 
 
 st.set_page_config(page_title="💬 ACUNAO AI Chatbot", layout="wide")
@@ -58,6 +59,11 @@ with st.sidebar:
         Press control + c  in the terminal or command line to stop the assistant.
         """
         )
+
+    st.subheader("Quit app")
+    st.markdown("Click button then close browser.")
+    if st.button("Quit app"):
+        os.kill(os.getpid(), signal.SIGINT)
 
     # Specify the desktop path and folder name for files storage
     desktop_path = os.path.join(os.path.expanduser("~/Documents"))
