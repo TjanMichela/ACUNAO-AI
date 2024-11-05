@@ -126,7 +126,7 @@ def init_llm():
         temperature = 0.0,
         n_ctx = 4500,
         streaming=True,
-        max_tokens=1000
+        max_tokens=512
     )
     return llm
 
