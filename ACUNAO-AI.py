@@ -19,6 +19,7 @@ if __name__ == "__main__":
         "run",
         resolve_path("utils/app.py"),
         "--server.port", str(port),
-        "--global.developmentMode=false"
+        "--global.developmentMode=false",
+        "os.devnull"
     ]
     sys.exit(stcli.main())
