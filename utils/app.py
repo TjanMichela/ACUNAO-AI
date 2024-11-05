@@ -9,7 +9,7 @@ import threading
 import time
 from langchain_community.chat_models import ChatLlamaCpp
 from langchain_huggingface import HuggingFaceEmbeddings
-# import ollama
+from langchain_community.chat_message_histories import StreamlitChatMessageHistory
 from streamlit.runtime.scriptrunner import add_script_run_ctx
 import clipboard
 import json
@@ -134,6 +134,9 @@ if "messages" not in st.session_state.keys():
     # Set the initial AI message
     st.session_state.messages = [{"role": "assistant", "content": "How may I assist you today?"}]
 
+if "message_history" not in st.session_state:
+    st.session_state.message_history = StreamlitChatMessageHistory(key="chat_history")
+
 for message in st.session_state.messages:
     # Display queries and responses
     with st.chat_message(message["role"]):
@@ -141,6 +144,7 @@ for message in st.session_state.messages:
 
 if prompt := st.chat_input():
     st.session_state.messages.append({"role": "user", "content": prompt})
+    st.session_state.message_history.add_message({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.write(prompt)
 
@@ -214,6 +218,7 @@ if st.session_state.messages[-1]["role"] != "assistant":
 
     message = {"role": "assistant", "content": response}
     st.session_state.messages.append(message)
+    st.session_state.message_history.add_message(message)
 
 @st.cache_resource
 def init_processor():
