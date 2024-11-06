@@ -230,8 +230,8 @@ class PDFLoader:
             f16_kv = True,
             temperature = 0.0,
             verbose = True,
-            n_ctx = 4500,
-            max_tokens=512
+            n_ctx = 4608,
+            max_tokens=1048
         )
         prompt_text = """
         You are an assistant tasked with summarizing tables. \n 
