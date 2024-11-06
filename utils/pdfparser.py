@@ -169,33 +169,37 @@ class PDFLoader:
                 roi = imag[y:h, x:w]
 
                 fin = final_img[y:h, x:w]
-                # Convert to grayscale and apply Otsu's threshold
-                gray = cv2.cvtColor(fin, cv2.COLOR_BGR2GRAY)
-                thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
-                # Dilate with a horizontal kernel
-                kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (20, 10))
-                dilate = cv2.dilate(thresh, kernel, iterations=2)
-                # Find contours
-                cnts = cv2.findContours(dilate, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-                cnts = cnts[0] if len(cnts) == 2 else cnts[1]
 
-                contours_found = False
-                for c in cnts:
-                    x, y, w, h = cv2.boundingRect(c)
-                    area = cv2.contourArea(c)
-                    if w/h > 2 and area > 10000:
-                        contours_found = True  
+                if fin.shape[0] > 0 and fin.shape[1] > 0:
+                    # Convert to grayscale and apply Otsu's threshold
+                    gray = cv2.cvtColor(fin, cv2.COLOR_BGR2GRAY)
+                    thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
+                    # Dilate with a horizontal kernel
+                    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (20, 10))
+                    dilate = cv2.dilate(thresh, kernel, iterations=2)
+                    # Find contours
+                    cnts = cv2.findContours(dilate, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+                    cnts = cnts[0] if len(cnts) == 2 else cnts[1]
+
+                    contours_found = False
+                    for c in cnts:
+                        x, y, w, h = cv2.boundingRect(c)
+                        area = cv2.contourArea(c)
+                        if w/h > 2 and area > 10000:
+                            contours_found = True  
+                        else:
+                            pass
+                    
+                    if contours_found:
+                        text = pytesseract.image_to_string(roi, config=custom_config, lang="eng").replace("\n", " ")
+                        cleaned = text
+                        cleaned = ''.join(e for e in cleaned if e.isalnum())
+                        if cleaned.isdigit():
+                            pass
+                        else:
+                            all_texts.append(text)
                     else:
                         pass
-                
-                if contours_found:
-                    text = pytesseract.image_to_string(roi, config=custom_config, lang="eng").replace("\n", " ")
-                    cleaned = text
-                    cleaned = ''.join(e for e in cleaned if e.isalnum())
-                    if cleaned.isdigit():
-                        pass
-                    else:
-                        all_texts.append(text)
                 else:
                     pass
 
