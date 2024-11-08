@@ -214,7 +214,8 @@ if st.session_state.messages[-1]["role"] != "assistant":
             # Context Retrieval status container
             with st.container():
                 st.write(f"**Question:** {output['input']}")
-                
+                sources = []
+
                 for i, doc in enumerate(output['context']):
                     source = doc.metadata.get("source", "File directory not available.")
                     page_number = doc.metadata.get("page", "Page number not available.")
@@ -222,8 +223,9 @@ if st.session_state.messages[-1]["role"] != "assistant":
                     st.write(f"**Document {i+1}**")
                     st.markdown(f"**Source**: {source} **Page**: {page_number}")
                     st.markdown(doc.page_content)
+                    sources.append(f"**Source**: {source} **Page**: {page_number}")
 
-            status.update(label="Documents are retrieved!", state="complete", expanded=False)
+            status.update(label="Click here to view the sources!", state="complete", expanded=False)
 
         response = output["answer"]
         def stream_ans():
@@ -231,10 +233,13 @@ if st.session_state.messages[-1]["role"] != "assistant":
                 yield word + " "
                 time.sleep(0.02)
 
+        source_response = "\n\n".join(["\n\n".join(sources), "\n\n".join(["**Answer:**", response])])
+
+        st.markdown(f"**Answer:**")
         st.write_stream(stream_ans)
         st.button("📋", on_click=on_copy_click, args=(response,))
 
-    message = {"role": "assistant", "content": response}
+    message = {"role": "assistant", "content": source_response}
     st.session_state.messages.append(message)
     st.session_state.message_history.add_message(message)
 
