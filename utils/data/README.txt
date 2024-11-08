@@ -17,6 +17,8 @@ It does not remember your previous queries or its previous answers, so ACUNAO AI
 When you add a document to process, you will be notified when it is processing. You will also be notified when the document is done processing.
 ACUNAO AI will not be able to answer your queries about documents that have not been processed. 
 
+When asking for summarization, you would have to specify the title of the document you would like to be summarized, not the name of the pdf.
+
 
 Recommendations: 
 Start by adding supported documents into the ACUNAO-Data folder in your computer's Documents folder or click the 'Open ACUNAO-Data Folder' button in the sidebar. 

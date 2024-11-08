@@ -142,6 +142,8 @@ st.info(
 
     **Read the README.txt file if you haven't!**
 
+    When asking for summarization, you would have to specify the title of the document you would like to be summarized, not the name of the pdf.
+    
     **Pro tip:** Organize your project by creating separate folders for different topics inside your project to create separate databases!""")
 
 if "copied" not in st.session_state.keys(): 
