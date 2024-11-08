@@ -230,7 +230,7 @@ class PDFLoader:
             f16_kv = True,
             temperature = 0.0,
             verbose = True,
-            n_ctx = 4608,
+            n_ctx = 5028,
             max_tokens=1048
         )
         prompt_text = """

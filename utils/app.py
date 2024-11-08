@@ -121,7 +121,7 @@ def init_llm():
         n_batch = 256,
         f16_kv = True,
         temperature = 0.0,
-        n_ctx = 4608,
+        n_ctx = 5028,
         streaming=True,
         max_tokens=1048
     )
