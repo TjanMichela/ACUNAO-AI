@@ -18,9 +18,9 @@ from utils.embeddings import initialize_embeddings_and_db
 import re
 
 # Comment the following out when making changes locally
-pytesseract.pytesseract.tesseract_cmd = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'tesseract/tesseract'))
+# pytesseract.pytesseract.tesseract_cmd = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'tesseract/tesseract'))
 
-os.environ["TESSDATA_PREFIX"] = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'tessdata'))
+# os.environ["TESSDATA_PREFIX"] = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'tessdata'))
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 class Element(BaseModel):

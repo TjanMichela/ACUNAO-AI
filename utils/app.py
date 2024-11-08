@@ -88,7 +88,6 @@ with st.sidebar:
     
     # Display files in sidebar with options to delete
     st.subheader("Available Databases")
-    st.success("Only update database list when document finished processing!")
 
     selected_db = st.selectbox(
         'Choose a database:',
@@ -137,7 +136,9 @@ st.info(
 
     1. Open ACUNAO-AI-Data folder in your computer's Documents folder.  
     2. Create a new folder with your project name to create a new project.  
-    3. Add documents into the folder and your AI assistant is ready to answer your questions!   
+    3. Add documents into the folder.
+    4. Wait for your document to process. You will be notified when it is done processing. View the metadata.txt in the folder to see if the document loaded successfully.
+    5. ACUNAO AI is ready to answer your questions!   
 
     **Read the README.txt file if you haven't!**
 
@@ -253,6 +254,8 @@ if 'processor' not in st.session_state:
     add_script_run_ctx(st.session_state.processor_thread)
     st.session_state.processor_thread.start()
 
+placeholder = st.container()
+
 # Messages while document is processing 
 while st.session_state.processor_thread.is_alive():
     add_script_run_ctx(st.session_state.processor_thread)
@@ -260,19 +263,21 @@ while st.session_state.processor_thread.is_alive():
     time.sleep(2)
     if st.session_state.processor.event_handler is not None:
         try:
-            placeholder = st.empty()
             if st.session_state.processor.event_handler.process_start:
                 placeholder.warning("New document detected!")
                 time.sleep(3)
+                placeholder.empty()
                 placeholder.warning("Processing document...")
                 st.session_state.processor.event_handler.process_start = False
             elif st.session_state.processor.event_handler.process_end:
+                placeholder.empty()
                 placeholder.success("Done! Finished processing document.", icon="✅")
                 st.session_state.processor.event_handler.process_end = False
             elif st.session_state.processor.event_handler.del_process_start:
                 placeholder.warning("Deleting document...")
                 st.session_state.processor.event_handler.del_process_start = False
             elif st.session_state.processor.event_handler.del_process_end:
+                placeholder.empty()
                 placeholder.success("Done! Document deleted.", icon="✅")
                 st.session_state.processor.event_handler.del_process_end = False
         except KeyboardInterrupt:

@@ -14,6 +14,9 @@ The purpose of ACUNAO AI is to answer your questions based on the documents you 
 ACUNAO AI will not respond to questions outside the scope of the documents. 
 It does not remember your previous queries or its previous answers, so ACUNAO AI won't be able to answer follow up questions.
 
+When you add a document to process, you will be notified when it is processing. You will also be notified when the document is done processing.
+ACUNAO AI will not be able to answer your queries about documents that have not been processed. 
+
 
 Recommendations: 
 Start by adding supported documents into the ACUNAO-Data folder in your computer's Documents folder or click the 'Open ACUNAO-Data Folder' button in the sidebar. 
