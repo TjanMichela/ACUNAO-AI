@@ -265,19 +265,19 @@ while st.session_state.processor_thread.is_alive():
         try:
             if st.session_state.processor.event_handler.process_start:
                 placeholder.warning("New document detected!")
-                time.sleep(3)
+                time.sleep(2)
                 placeholder.empty()
                 placeholder.warning("Processing document...")
                 st.session_state.processor.event_handler.process_start = False
             elif st.session_state.processor.event_handler.process_end:
-                placeholder.empty()
+                placeholder = st.container()
                 placeholder.success("Done! Finished processing document.", icon="✅")
                 st.session_state.processor.event_handler.process_end = False
             elif st.session_state.processor.event_handler.del_process_start:
                 placeholder.warning("Deleting document...")
                 st.session_state.processor.event_handler.del_process_start = False
             elif st.session_state.processor.event_handler.del_process_end:
-                placeholder.empty()
+                placeholder = st.container()
                 placeholder.success("Done! Document deleted.", icon="✅")
                 st.session_state.processor.event_handler.del_process_end = False
         except KeyboardInterrupt:
