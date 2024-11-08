@@ -65,8 +65,6 @@ with st.sidebar:
     st.markdown(
         """
         An AI assistant programmed to answer questions and provide information based on the documents you provide. If the AI assistant's answer is not based on the context, please let our lab know.  
-
-        Press control + c  in the terminal or command line to stop the assistant.
         """
         )
 
