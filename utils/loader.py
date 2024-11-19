@@ -21,8 +21,10 @@ class DocumentEventHandler(FileSystemEventHandler):
     
     Attributes:
         processor: An instance responsible for processing and updating the vector database.
-        supported_extensions: A set of file extensions that the handler will process.
-        process_start: A flag indicating the processing state.
+        process_start: A flag indicating the start of a processing state.
+        process_end: A flag indicating the end of a processing state.
+        del_process_start: A flag indicating the start of a deletion state.
+        del_process_end: A flag indicating the end of a deletion state.
     """
     def __init__(self, processor):
         self.processor = processor
@@ -44,17 +46,18 @@ class DocumentEventHandler(FileSystemEventHandler):
             subpath_parts = subpath_parts[:-1]
         self.processor.folder_name = os.sep.join(subpath_parts)
 
-        if len(self.processor.folder_name) != 0: 
-            if event.event_type in ['created', 'modified']:
-                if not self.process_start:  # Only process if not already processing
-                    self.processor.embeddings, self.processor.client, self.processor.vectordb, self.processor.text_splitter, self.processor.llm = initialize_embeddings_and_db(self.processor.folder_name)
-                    self.processor.update_vector_db(event.src_path)
+        if len(self.processor.folder_name) == 0: 
+            return
+        
+        if event.event_type in ['created', 'modified'] and not self.process_start:
+            self.processor.embeddings, self.processor.client, self.processor.vectordb, self.processor.text_splitter, self.processor.llm = initialize_embeddings_and_db(self.processor.folder_name)
+            self.processor.update_vector_db(event.src_path)
 
-            elif event.event_type == 'deleted':
-                self.del_process_start = True
-                self.processor.embeddings, self.processor.client, self.processor.vectordb, self.processor.text_splitter, self.processor.llm = initialize_embeddings_and_db(self.processor.folder_name)
-                self.processor.delete_from_vector_db(event.src_path)
-                self.del_process_end = True
+        elif event.event_type == 'deleted':
+            self.del_process_start = True
+            self.processor.embeddings, self.processor.client, self.processor.vectordb, self.processor.text_splitter, self.processor.llm = initialize_embeddings_and_db(self.processor.folder_name)
+            self.processor.delete_from_vector_db(event.src_path)
+            self.del_process_end = True
 
     def should_ignore(self, path):
         # Ignore files ending with '.tmp' or starting with '~'
@@ -74,6 +77,7 @@ class DocumentProcessor:
         vectordb: Path to the vector database.
         embeddings: Placeholder for document embeddings.
         text_splitter: Placeholder for a text splitting utility.
+        llm: Placeholder for the path to the llm.
         files: List to hold the names of the files to be processed.
         observer: Observer for monitoring file system changes.
         event_handler: Event handler for processing document-related events.

@@ -18,9 +18,9 @@ from utils.embeddings import initialize_embeddings_and_db
 import re
 
 # Comment the following out when making changes locally
-# pytesseract.pytesseract.tesseract_cmd = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'tesseract/tesseract'))
+pytesseract.pytesseract.tesseract_cmd = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'tesseract/tesseract'))
 
-# os.environ["TESSDATA_PREFIX"] = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'tessdata'))
+os.environ["TESSDATA_PREFIX"] = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'tessdata'))
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 class Element(BaseModel):
@@ -80,8 +80,15 @@ class PDFLoader:
         pdf_path (Path): The path to the PDF file.
 
     Attributes:
+        pdf_path: Path to the pdf to be processed.
         elements: Document elements to add to vector databases.
+        device: Type of device, cuda or cpu.
         pipe: Initiate table-transformer-detection.
+        db: Name of database.
+        client: Initiated vector database client.
+        vectordb: Initiated vector database.
+        text_splitter: Initiated text splitter.
+        llm_model: Initiated path to the llm model.
     """
     def __init__(self, pdf_path: Path):
         self.pdf_path = pdf_path
