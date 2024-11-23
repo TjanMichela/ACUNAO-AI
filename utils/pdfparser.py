@@ -118,9 +118,9 @@ class PDFLoader:
         """
         Extract tables and texts from all images.
         """
-        in_reference_section = False
 
         for i, image in enumerate(images):
+            in_reference_section = False
             metadata = {"source": str(filepath), "page": i+1}
             image = Image.open(image).convert("RGB")
             results = self.pipe(image)
