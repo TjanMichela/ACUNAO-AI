@@ -16,6 +16,8 @@ from transformers import pipeline
 import torch
 from utils.embeddings import initialize_embeddings_and_db
 import re
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+
 
 # Comment the following out when making changes locally
 pytesseract.pytesseract.tesseract_cmd = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'tesseract/tesseract'))
@@ -98,6 +100,9 @@ class PDFLoader:
         # Initialize embeddings and vector database
         self.db="project_example"
         _, self.client, self.vectordb, self.text_splitter, self.llm_model = initialize_embeddings_and_db(self.db)
+        self.text_splitter = RecursiveCharacterTextSplitter(chunk_size=4500, 
+                                                            chunk_overlap=1000
+                                                            )
 
     def load(self):
         images, filepath = rasterize_paper(self.pdf_path, return_pil=True)
@@ -120,7 +125,6 @@ class PDFLoader:
         """
 
         for i, image in enumerate(images):
-            in_reference_section = False
             metadata = {"source": str(filepath), "page": i+1}
             image = Image.open(image).convert("RGB")
             results = self.pipe(image)
@@ -210,24 +214,29 @@ class PDFLoader:
                 else:
                     pass
 
-            reference_headings = ["References", "Bibliography", "Works Cited", "Literature Cited"]
-            reference_regex = re.compile(r'|'.join(reference_headings), re.IGNORECASE)
-
             all_text = "\n".join(all_texts)
 
-            if not in_reference_section:
-                if reference_regex.search(all_text):
-                    in_reference_section = True
+            # Detect and exclude references
+            citation_patterns = [r'\[\d+\]', r'\d+\.', r'(\bdoi\b|\bdoi.org\b|arxiv|vol|issn|isbn|et al\.)']
+            citation_regex = re.compile('|'.join(citation_patterns), re.IGNORECASE)
 
-            if in_reference_section:
-                citation_patterns = [r'\[\d+\]', r'\d+\.', r'(\bdoi\b|\bdoi.org\b|arxiv|vol|issn|isbn)']
-                citation_regex = re.compile('|'.join(citation_patterns), re.IGNORECASE)
+            # Remove text identified as references
+            text_without_references = []
+            for line in all_text.split("\n"):
+                if not citation_regex.search(line): 
+                    text_without_references.append(line)
 
-                if citation_regex.search(all_text):
-                    continue
-        
-            self.elements.append(Element(type="text", page_content=all_text, metadata=metadata))
-            print("text appended")
+            # Combine filtered text
+            filtered_text = "\n".join(text_without_references)
+
+            chunks = self.text_splitter.split_text(filtered_text)
+
+            for chunk in chunks:
+                self.elements.append(Element(type="text", page_content=chunk, metadata=metadata))
+                print("text appended")
+            
+            print("page appended")
+            
 
     def summarize_tables(self):
         llm = ChatLlamaCpp(
