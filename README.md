@@ -130,10 +130,6 @@ python run.py
 Note: During first run, you will be prompted to add your email for marketing subscription from Streamlit. You have the option to add your email and press enter, or hit the enter key to skip adding your email to the marketing subscription. 
 
 
-## Documentation
-
-ACUNAO AI's documentation is available as a GitHub-pages website accessible at [add later]. The documentation's source files are located in this repository at https://github.com/luquelab/ACUNAO-AI/tree/main/docs.
-
 ## Project History
 
 This is an evolving repository  
@@ -151,15 +147,17 @@ End: Ongoing
 ## Maintainers
 
 [@LuqueLab](https://github.com/luquelab)
+[@TjanMichela](https://github.com/tjanmichela)
 
 ### Contributors
 
 This project exists thanks to all the people who contribute.  
 [@LuqueLab](https://github.com/luquelab)
+[@TjanMichela](https://github.com/tjanmichela)
 
 ## License
 
-This project is licensed under a license.
+This project is licensed under MIT license.
 
 ------
 The syntax of markdown files (.md) is CommonMark unless specified otherwise (https://commonmark.org/help/)
