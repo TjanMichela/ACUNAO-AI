@@ -1,8 +1,11 @@
+import os, sys
+
+os.environ["STREAMLIT_EMAIL"] = "dummy@example.com"
+os.environ["STREAMLIT_HEADLESS"] = "true"
 
 import streamlit
 
 import streamlit.web.cli as stcli
-import os, sys
 
 
 def resolve_path(path):
