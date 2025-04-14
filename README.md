@@ -11,6 +11,7 @@ Due to the rapid growth of AI, especially since the launch of ChatGPT, there has
 
 ## Table of Contents
 
+* [MacOS App](#macos-app)
 * [Download LLM](#download-llm)
 * [Installation](#installation)
    * [Conda-environment](#conda-environment)
@@ -21,6 +22,9 @@ Due to the rapid growth of AI, especially since the launch of ChatGPT, there has
 * [Maintainers](#maintainers)
     * [Contributors](#contributors)
 * [License](#license)  
+
+## MacOS App
+We have a downloadable MacOS App prototype ready to use. Please contact us at mte42@miami.edu for access to the app.
 
 ## Download LLM
 Please follow the following instructions prior to installing the AI Assistant.  
