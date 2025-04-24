@@ -11,12 +11,35 @@
 
     <link rel="alternate icon" class="js-site-favicon" type="image/png" href="https://github.githubassets.com/favicons/favicon.png">
     <link rel="icon" class="js-site-favicon" type="image/svg+xml" href="https://github.githubassets.com/favicons/favicon.svg">
+
+    <style>
+        nav {
+            background-color: #24292f;
+            padding: 0.5rem 1rem;
+            margin-bottom: 2rem;
+        }
+        nav a {
+            color: #ffffff;
+            margin-right: 1.5rem;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-<div class="container-lg px-3 my-5 markdown-body">
-    {% include header.html %}
-    {{ content }}
-</div>
-{% include footer.html %}
+    <nav>
+        <a href="{{ '/' | relative_url }}">Home</a>
+        <a href="{{ '/installation/' | relative_url }}">Installation</a>
+        <a href="{{ '/download/' | relative_url }}">Donwnload</a>
+        <a href="{{ '/contact/' | relative_url }}">Contact</a>
+    </nav>
+    <div class="container-lg px-3 my-5 markdown-body">
+        {% include header.html %}
+        {{ content }}
+    </div>
+    {% include footer.html %}
 </body>
 </html>
