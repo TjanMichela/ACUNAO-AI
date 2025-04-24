@@ -14,12 +14,10 @@
 
     <style>
         nav {
-            background-color: #24292f;
-            padding: 0.5rem 1rem;
+            padding: 1rem 1rem;
             margin-bottom: 2rem;
         }
         nav a {
-            color: #ffffff;
             margin-right: 1.5rem;
             text-decoration: none;
             font-weight: 500;
@@ -30,14 +28,14 @@
     </style>
 </head>
 <body>
-    <nav>
-        <a href="{{ '/' | relative_url }}">Home</a>
-        <a href="{{ '/installation/' | relative_url }}">Installation</a>
-        <a href="{{ '/download/' | relative_url }}">Donwnload</a>
-        <a href="{{ '/contact/' | relative_url }}">Contact</a>
-    </nav>
     <div class="container-lg px-3 my-5 markdown-body">
         {% include header.html %}
+        <nav>
+            <a href="{{ '/' | relative_url }}">Home</a>
+            <a href="{{ '/installation/' | relative_url }}">Installation</a>
+            <a href="{{ '/download/' | relative_url }}">Download</a>
+            <a href="{{ '/contact/' | relative_url }}">Contact</a>
+        </nav>
         {{ content }}
     </div>
     {% include footer.html %}
