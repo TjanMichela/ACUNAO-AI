@@ -27,5 +27,5 @@ An AI assistant as a domain expert of the lab’s documents that has the ability
   Designed to meet the unique needs of interdisciplinary research teams, not just the general public.
 
 <p align="center" style="padding: 15px;">
-  <a href="installation" style="font-size: 1.2rem; font-weight: bold; background-color: #007acc; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Learn More →</a>
+  <a href="https://www.tjanmichela.com/ACUNAO-AI/installation" style="font-size: 1.2rem; font-weight: bold; background-color: #007acc; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Learn More →</a>
 </p>
