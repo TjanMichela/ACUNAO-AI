@@ -13,5 +13,3 @@ git clone https://github.com/luquelab/ACUNAO-AI.git
 ```
 
 Or [Download ZIP](https://drive.google.com/drive/folders/15FrJ7bTpLj7cbR2Sg6U2ImzHXtf7FK_1?usp=sharing).
-
----

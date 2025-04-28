@@ -7,8 +7,25 @@ nav_order: 2
 
 > [**HERE**](https://github.com/luquelab/ACUNAO-AI) you can check the GitHub repository of this project.
 
-## What is ACUNAO-AI?
-An AI assistant as a domain expert of the lab’s documents that has the ability to answer users’ queries accurately. The user must be able to trust the answers given by the AI assistant and give input in order for the AI assistant to continuously learn how to better respond to users’ queries.
+![Hero Image](assets/images/demo.png)
 
-## Why ACUNAO-AI?
-Due to the rapid growth of AI, especially since the launch of ChatGPT, there has been a drastic increase in AI products and services. These products and services have mostly been developed to appeal to the general public. There is a lack of AI solution to support interdisciplinary research labs whose documents could accumulate so quickly, which leads to misplaced or forgotten information. The nature of these documents also poses as a problem since they are generally complex and confidential. ACUNAO AI aims to bridge this gap.
+## What is ACUNAO-AI?
+An AI assistant as a domain expert of the lab’s documents that has the ability to answer users’ queries accurately. It assists users with organizing their projects and acts as a 'second brain'.
+
+## Key Features
+
+- 🧠 **Domain Expertise**  
+  Trained specifically on lab documents to answer technical and interdisciplinary research questions accurately.
+
+- 📚 **Knowledge Organization**  
+  Helps manage, retrieve, and organize growing collections of complex, confidential research documents.
+
+- 🛡️ **Confidential and Secure**  
+  Built with privacy in mind to handle sensitive internal documents without risking data leaks.
+
+- 🔬 **Tailored for Research Labs**  
+  Designed to meet the unique needs of interdisciplinary research teams, not just the general public.
+
+<p align="center" style="padding: 15px;">
+  <a href="/installation" style="font-size: 1.2rem; font-weight: bold; background-color: #007acc; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Learn More →</a>
+</p>
