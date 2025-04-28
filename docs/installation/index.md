@@ -27,7 +27,7 @@ We have a downloadable MacOS App prototype ready to use. Please contact us at mt
 ## Download LLM
 Please follow the following instructions prior to installing the AI Assistant.  
 
-1. Navigate to the following link https://huggingface.co/bartowski/Phi-3.5-mini-instruct-GGUF/resolve/main/Phi-3.5-mini-instruct-Q8_0.gguf?download=true.
+1. Navigate to the following link [Download LLM Link](https://huggingface.co/bartowski/Phi-3.5-mini-instruct-GGUF/resolve/main/Phi-3.5-mini-instruct-Q8_0.gguf?download=true).
 
 ## Installation   
 Follow the proper instructions based on your package manager, environment management system, and operating system. If you use Conda as your environment management system,follow the instructions found in [Conda-environment](#conda-environment). If you use MacOS without Conda, follow the instructions found in [MacOS no conda](#macos-no-conda).  
