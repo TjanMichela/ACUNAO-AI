@@ -5,8 +5,6 @@ nav_order: 4
 ---
 # Contact Us
 
-> [**HERE**](https://github.com/luquelab/ACUNAO-AI) you can check the GitHub repository of this project.
-
 **Have a question, found a bug, or want to collaborate? We'd love to hear from you!**
 
 ### Email:

@@ -5,8 +5,6 @@ nav_order: 2
 ---
 # ACUNAO-AI
 
-> [**HERE**](https://github.com/luquelab/ACUNAO-AI) you can check the GitHub repository of this project.
-
 ![Hero Image](assets/images/demo.png)
 
 ## What is ACUNAO-AI?
