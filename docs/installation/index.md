@@ -5,83 +5,92 @@ nav_order: 2
 ---
 # Get Started with ACUNAO-AI
 
-## Download Instructions:
-Click <a href="{{ '/download/' | relative_url }}">HERE</a> to download ACUNAO-AI!
-1. Download all files ("ACUNAO-AI.zip" and "ACUNAO-AI-README.txt") from the <a href="{{ '/download/' | relative_url }}">download link</a>. It is important to download the README file as well for future reference.
+## Download Instructions
+
+Click <a href="{{ '/download/' | relative_url }}">**HERE**</a> to download ACUNAO-AI!
+
+1. Download both files from the <a href="{{ '/download/' | relative_url }}">download link</a>:  
+   - `ACUNAO-AI.zip`  
+   - `ACUNAO-AI-README.txt`  
+2. Keep the `ACUNAO-AI-README.txt` file for reference during setup or troubleshooting.
 
 
-## Initiating ACUNAO AI for the first time:
-In your computer: 
-1. Locate the downloaded "ACUNAO-AI.zip" file and unzip the package. 
-2. Move the "ACUNAO-AI.app" application to the Applications folder.
-3. Double-click on "ACUNAO-AI.app" application.
-4. A pop-up will appear with the following message: "macOS cannot verify the developer
-   of ACUNAO-AI."
-5. Click the open button.
-6. Another pop-up will appear that contains two buttons, "Move to Trash" and "Close".
-7. Click the "Close" button.
-8. Go to the "Settings" or "System Settings" app in your Mac computer.
-9. Go to "System and Security".
-10. Scroll to the "Security" section.
-11. Under the message: '"ACUNAO AI" was blocked from use because it is not from an 
-    identified developer', click the "Open Anyway" button.
-12. Now, ACUNAO AI is ready to use.
-13. Reopen "ACUNAO-AI.app".
+## First-Time Setup on macOS
 
->**Note:**
->It will take time for ACUNAO AI to start during the first initiation
+To install and launch ACUNAO-AI on macOS:
 
+1. Locate the downloaded `ACUNAO-AI.zip` file and unzip it.
+2. Move the `ACUNAO-AI.app` file into your **Applications** folder.
+3. Double-click on the `ACUNAO-AI.app` to open it.
+4. You will see a message:  
+   **"macOS cannot verify the developer of ACUNAO-AI."**  
+   Click **Open**.
+5. A second pop-up will appear with options: **Move to Trash** or **Close**.  
+   Click **Close**.
+6. Open **System Settings** on your Mac.
+7. Navigate to **Privacy & Security**.
+8. Scroll down to the **Security** section.
+9. Under the message:  
+   **'"ACUNAO-AI" was blocked from use because it is not from an identified developer'**,  
+   click **Open Anyway**.
+10. Reopen `ACUNAO-AI.app`.
 
-## WARNING:
-Once ACUNAO AI is loaded, there will be a folder called ACUNAO-AI-Data within your 
-Documents folder. This folder will contain a folder called project_example. 
-
->**DO NOT DELETE ACUNAO-AI-Data or project_example FOLDERS.**
+> ⚠️ **Note:** The first launch might take some time as ACUNAO-AI completes initialization.
 
 
-## General Information:
-The purpose of ACUNAO AI is to answer your questions based on the documents you provided. ACUNAO AI will not respond to questions outside the scope of the documents. It does not remember your previous queries or its previous answers, so ACUNAO AI won't be able to answer follow up questions.
+## Important Notice
 
-When you add a document to process, you will be notified when it is processing. You will also be notified when the document is done processing. ACUNAO AI will not be able to answer your queries about documents that have not been processed. 
+Once ACUNAO-AI is launched, it will automatically create a folder named `ACUNAO-AI-Data` inside your **Documents** directory. This folder contains essential files and a sample project folder called `project_example`.
 
-When asking for summarization, you would have to specify the title of the document you would like to be summarized, not the name of the pdf or mentioning "this paper or document".
-
-ACUNAO-AI, at the moment, won't be able to understand "these documents", "these papers", or "These PDFs".
+> 🚫 **Do NOT delete** the `ACUNAO-AI-Data` or `project_example` folders. These are critical for application functionality.
 
 
-## Recommendations: 
-Start by adding supported documents into the ACUNAO-AI-Data folder in your computer's 
-Documents folder or click the 'Open ACUNAO-AI-Data Folder' button in the sidebar. 
-ACUNAO currently supports PDF documents:  
+## General Usage Information
 
-  1. Open ACUNAO-AI-Data folder in your computer's Documents folder.  
-  2. Create a new folder with your project name to create a new project.  
-  3. Add documents into the folder and your AI assistant is ready to answer your questions!    
+ACUNAO-AI is designed to answer questions based on the documents you provide. It **does not retain memory** of previous conversations or answers.
 
-  View the list of processed documents in the 'metadata.json' file in the project folder. 
-  DO NOT DELETE 'metadata.json' file or the 'vectordb' folder!! They are needed for your 
-  project folders.
+### Key Behaviors:
+- It will notify you when a document is **processing** and when it is **ready**.
+- It **cannot** respond to questions about documents that haven't been processed.
+- When requesting a summary, **mention the document title** (as it appears in your project folder), not general terms like *"this paper"* or *"this document"*.
+- ACUNAO-AI does **not** currently understand references like *"these documents"*, *"these PDFs"*, or *"this folder of files"*.
 
-  Pro tip: Organize your project by creating separate folders for different topics inside 
-            your project to create separate databases!
 
-You can also share the databases (project folders) you create with your peers and exchange 
-these databases. 
+## Recommendations
 
-Share the project folder you built with your peers by copying and pasting the folder.
-All you need to do to load them is to add the databases into your ACUNAO-AI-Data folder!
+Start by adding PDF files into the `ACUNAO-AI-Data` folder inside your **Documents** folder. Alternatively, click the **'Open ACUNAO-AI-Data Folder'** button from within the app's sidebar.
+
+### Steps to Create a New Project:
+1. Open the `ACUNAO-AI-Data` folder.
+2. Create a new subfolder with your **project name**.
+3. Add supported **PDF documents** into this folder. ACUNAO-AI will automatically process them.
+
+### Data Management:
+- Processed documents are tracked in a `metadata.json` file within each project folder.
+- A `vectordb` folder stores your searchable embeddings.
+
+> ⚠️ **Do NOT delete** `metadata.json` or `vectordb`.
+
+### Pro Tip:
+Organize complex projects by creating nested folders within your project folder—each acts as a separate topic-specific database!
+
+### Sharing Projects:
+You can share your project databases with others by copying and transferring the project folder.  
+To load a shared project, simply move the folder into your own `ACUNAO-AI-Data` directory.
+
 
 ## Maintainers
 
-[@LuqueLab](https://github.com/luquelab)
-[@TjanMichela](https://github.com/tjanmichela)
+- [@LuqueLab](https://github.com/luquelab)  
+- [@TjanMichela](https://github.com/tjanmichela)
 
 ### Contributors
 
-This project exists thanks to all the people who contribute.  
-[@LuqueLab](https://github.com/luquelab)
-[@TjanMichela](https://github.com/tjanmichela)
+This project exists thanks to the continued efforts of our contributors:  
+- [@LuqueLab](https://github.com/luquelab)  
+- [@TjanMichela](https://github.com/tjanmichela)
+
 
 ## License
 
-This project is licensed under MIT license.
+This project is licensed under the **MIT License**.
