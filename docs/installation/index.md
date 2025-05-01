@@ -5,146 +5,71 @@ nav_order: 2
 ---
 # Get Started with ACUNAO-AI
 
-> [**HERE**](https://github.com/luquelab/ACUNAO-AI) you can check the GitHub repository of this project.
-
-## Table of Contents
-
-* [MacOS App](#macos-app)
-* [Download LLM](#download-llm)
-* [Installation](#installation)
-   * [Conda-environment](#conda-environment)
-   * [MacOS no conda](#macos-no-conda)
-* [Documentation](#documentation)
-* [Project History](#project-history)
-* [Folder's descriptions](#folders-descriptions)
-* [Maintainers](#maintainers)
-    * [Contributors](#contributors)
-* [License](#license)  
-
-## MacOS App
-We have a downloadable MacOS App prototype ready to use. Please contact us at mte42@miami.edu for access to the app.
-
-## Download LLM
-Please follow the following instructions prior to installing the AI Assistant.  
-
-1. Navigate to the following link [Download LLM Link](https://huggingface.co/bartowski/Phi-3.5-mini-instruct-GGUF/resolve/main/Phi-3.5-mini-instruct-Q8_0.gguf?download=true).
-
-## Installation   
-Follow the proper instructions based on your package manager, environment management system, and operating system. If you use Conda as your environment management system,follow the instructions found in [Conda-environment](#conda-environment). If you use MacOS without Conda, follow the instructions found in [MacOS no conda](#macos-no-conda).  
-
-To set up ACUNAO AI locally, follow these steps in your terminal or VS Code terminal:  
-
-### Conda-environment  
-
-1. **Clone the repository** or **Download the repository**  
-```bash
-git clone https://github.com/luquelab/ACUNAO-AI.git
-```  
-2. **Navigate to project directory**  
-```bash
-cd ACUNAO-AI
-```  
-  or 
-```bash
-cd ACUNAO-AI-main
-```
-  Note: if you are new to the terminal, PowerShell or CommandPrompt, run `ls` to see the current directory and `cd` to navigate to the ACUNAO-AI folder.  
-
-3. **Add the LLM**  
-Move the downloaded LLM to the `ACUNAO-AI/utils/data/` folder, replacing the existing pointer file: `Phi-3.5-mini-instruct-Q8_0.gguf`.  
-
-4. **Install dependencies**  
-
-```
-conda env create --name venv --file=environment.yml
-```
-```
-conda activate venv
-```  
-```
-sh ./post_install.sh
-```
-
-5. **Run the application**  
-
-Run the Streamlit prototype:  
-```bash
-python run.py
-```
-Note: During first run, you will be prompted to add your email for marketing subscription from Streamlit. You have the option to add your email and press enter, or hit the enter key to skip adding your email to the marketing subscription. 
-
-### MacOS No Conda  
-
-1. **Clone the repository** or **Download the repository**  
-```bash
-git clone https://github.com/luquelab/ACUNAO-AI.git
-```
-
-2. **Navigate to project directory**  
-```bash
-cd ACUNAO-AI
-```  
-  or 
-```bash
-cd ACUNAO-AI-main
-```
-  Note: if you are new to the terminal, PowerShell or CommandPrompt, run `ls` to see the current directory and `cd` to navigate to the ACUNAO-AI folder.  
-
-3. **Add the LLM**  
-Move the downloaded LLM to the `ACUNAO-AI/utils/data/` folder.  
-
-4. **Create a virtual environment**  
-  Note: In MacOS, make sure that Xcode is installed. To do this, run this command in your terminal:  
-```
-xcode-select –-install
-```
-```bash
-python3 -m venv venv
-```
-
-5. **Activate the virtual environment**  
-
-```
-source venv/bin/activate
-```  
-
-6. **Install dependencies**  
-
-This project requires Tesseract to be installed on your system. You can install Tesseract using Homebrew with the following command:
-```bash
-brew install tesseract
-```
-Then:
-```bash
-pip install -r requirements.txt
-```  
-And then:  
-```
-sh ./post_install.sh
-```
-
-7. **Run the application**  
-
-Run the Streamlit prototype:  
-```bash
-python run.py
-```
-Note: During first run, you will be prompted to add your email for marketing subscription from Streamlit. You have the option to add your email and press enter, or hit the enter key to skip adding your email to the marketing subscription. 
+## Download Instructions:
+Click <a href="{{ '/download/' | relative_url }}">HERE</a> to download ACUNAO-AI!
+1. Download all files ("ACUNAO-AI.zip" and "ACUNAO-AI-README.txt") from the <a href="{{ '/download/' | relative_url }}">download link</a>. It is important to download the README file as well for future reference.
 
 
-## Project History
+## Initiating ACUNAO AI for the first time:
+In your computer: 
+1. Locate the downloaded "ACUNAO-AI.zip" file and unzip the package. 
+2. Move the "ACUNAO-AI.app" application to the Applications folder.
+3. Double-click on "ACUNAO-AI.app" application.
+4. A pop-up will appear with the following message: "macOS cannot verify the developer
+   of ACUNAO-AI."
+5. Click the open button.
+6. Another pop-up will appear that contains two buttons, "Move to Trash" and "Close".
+7. Click the "Close" button.
+8. Go to the "Settings" or "System Settings" app in your Mac computer.
+9. Go to "System and Security".
+10. Scroll to the "Security" section.
+11. Under the message: '"ACUNAO AI" was blocked from use because it is not from an 
+    identified developer', click the "Open Anyway" button.
+12. Now, ACUNAO AI is ready to use.
+13. Reopen "ACUNAO-AI.app".
 
-This is an evolving repository  
+>**Note:**
+>It will take time for ACUNAO AI to start during the first initiation
 
-Started: 2024-06-03
 
-End: Ongoing
+## WARNING:
+Once ACUNAO AI is loaded, there will be a folder called ACUNAO-AI-Data within your 
+Documents folder. This folder will contain a folder called project_example. 
 
-## Folder's descriptions
+>**DO NOT DELETE ACUNAO-AI-Data or project_example FOLDERS.**
 
-* `/data`: Files used for testing purposes.
-* `/hooks`: This folder contains the hooks for creating the executable.
-* `/utils`: Project's source codes.
+
+## General Information:
+The purpose of ACUNAO AI is to answer your questions based on the documents you provided. ACUNAO AI will not respond to questions outside the scope of the documents. It does not remember your previous queries or its previous answers, so ACUNAO AI won't be able to answer follow up questions.
+
+When you add a document to process, you will be notified when it is processing. You will also be notified when the document is done processing. ACUNAO AI will not be able to answer your queries about documents that have not been processed. 
+
+When asking for summarization, you would have to specify the title of the document you would like to be summarized, not the name of the pdf or mentioning "this paper or document".
+
+ACUNAO-AI, at the moment, won't be able to understand "these documents", "these papers", or "These PDFs".
+
+
+## Recommendations: 
+Start by adding supported documents into the ACUNAO-AI-Data folder in your computer's 
+Documents folder or click the 'Open ACUNAO-AI-Data Folder' button in the sidebar. 
+ACUNAO currently supports PDF documents:  
+
+  1. Open ACUNAO-AI-Data folder in your computer's Documents folder.  
+  2. Create a new folder with your project name to create a new project.  
+  3. Add documents into the folder and your AI assistant is ready to answer your questions!    
+
+  View the list of processed documents in the 'metadata.json' file in the project folder. 
+  DO NOT DELETE 'metadata.json' file or the 'vectordb' folder!! They are needed for your 
+  project folders.
+
+  Pro tip: Organize your project by creating separate folders for different topics inside 
+            your project to create separate databases!
+
+You can also share the databases (project folders) you create with your peers and exchange 
+these databases. 
+
+Share the project folder you built with your peers by copying and pasting the folder.
+All you need to do to load them is to add the databases into your ACUNAO-AI-Data folder!
 
 ## Maintainers
 
