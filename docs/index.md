@@ -5,7 +5,9 @@ nav_order: 2
 ---
 # ACUNAO-AI
 
-![Hero Image](assets/images/demo.png)
+<p align="center">
+  <img src="assets/images/demo.png" alt="ACUNAO-AI Hero Image"/>
+</p>
 
 ## What is ACUNAO-AI?
 An AI assistant as a domain expert of the lab’s documents that has the ability to answer users’ queries accurately. It assists users with organizing their projects and acts as a 'second brain'.
