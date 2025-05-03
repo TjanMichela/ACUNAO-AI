@@ -22,6 +22,7 @@ Due to the rapid growth of AI, especially since the launch of ChatGPT, there has
 * [Maintainers](#maintainers)
     * [Contributors](#contributors)
 * [License](#license)  
+* [Star History](#star-history)
 
 ## MacOS App
 We have a downloadable MacOS App prototype ready to use. Please contact us at mte42@miami.edu for access to the app.
@@ -162,6 +163,10 @@ This project exists thanks to all the people who contribute.
 ## License
 
 This project is licensed under MIT license.
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=luquelab/ACUNAO-AI&type=Date)](https://www.star-history.com/#luquelab/ACUNAO-AI&Date)
 
 ------
 The syntax of markdown files (.md) is CommonMark unless specified otherwise (https://commonmark.org/help/)
