@@ -3,7 +3,6 @@ layout: default
 title: Home
 nav_order: 2
 ---
-# ACUNAO-AI
 
 <p align="center">
   <img src="assets/images/demo.png" alt="ACUNAO-AI Hero Image"/>
