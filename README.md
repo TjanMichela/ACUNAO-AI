@@ -3,7 +3,7 @@
 
 ## Description
 
-An AI assistant as a domain expert of the lab’s documents that has the ability to answer users’ queries accurately. The user must be able to trust the answers given by the AI assistant and give input in order for the AI assistant to continuously learn how to better respond to users’ queries. 
+An AI assistant as a domain expert of the lab’s documents that has the ability to answer users’ queries accurately. It assists users with organizing their projects and acts as a 'second brain'.
 
 Due to the rapid growth of AI, especially since the launch of ChatGPT, there has been a drastic increase in AI products and services. These products and services have mostly been developed to appeal to the general public. There is a lack of AI solution to support interdisciplinary research labs whose documents could accumulate so quickly, which leads to misplaced or forgotten information. The nature of these documents also poses as a problem since they are generally complex and confidential. ACUNAO AI aims to bridge this gap.
 
@@ -22,6 +22,7 @@ Due to the rapid growth of AI, especially since the launch of ChatGPT, there has
 * [Maintainers](#maintainers)
     * [Contributors](#contributors)
 * [License](#license)  
+* [Star History](#star-history)
 
 ## MacOS App
 We have a downloadable MacOS App prototype ready to use. Please contact us at mte42@miami.edu for access to the app.
@@ -162,6 +163,16 @@ This project exists thanks to all the people who contribute.
 ## License
 
 This project is licensed under MIT license.
+
+## Star History
+
+<a href="https://www.star-history.com/#luquelab/ACUNAO-AI&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=luquelab/ACUNAO-AI&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=luquelab/ACUNAO-AI&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=luquelab/ACUNAO-AI&type=Date" />
+ </picture>
+</a>
 
 ------
 The syntax of markdown files (.md) is CommonMark unless specified otherwise (https://commonmark.org/help/)

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en-US" data-color-mode="{{ site.color-mode }}" data-light-theme="light" data-dark-theme="dark">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="theme-color" content="{{ site.theme-color | default: '#1e2327' }}">
+
+    {% seo %}
+    <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!-- GA4 -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B9TWRMX7SV"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-B9TWRMX7SV');
+    </script>
+
+    <link rel="alternate icon" class="js-site-favicon" type="image/png" href="https://github.githubassets.com/favicons/favicon.png">
+    <link rel="icon" class="js-site-favicon" type="image/svg+xml" href="https://github.githubassets.com/favicons/favicon.svg">
+
+    <style>
+        nav {
+            padding: 1rem 1rem 1rem 0rem;
+            margin-bottom: 2rem;
+        }
+        nav a {
+            margin-right: 1.5rem;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-lg px-3 my-5 markdown-body">
+        {% include header.html %}
+        <nav>
+            <a href="{{ '/' | relative_url }}">Home</a>
+            <a href="{{ '/installation/' | relative_url }}">Installation</a>
+            <a href="{{ '/download/' | relative_url }}">Download</a>
+            <a href="{{ '/contact/' | relative_url }}">Contact</a>
+        </nav>
+        {{ content }}
+    </div>
+    {% include footer.html %}
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      document.querySelectorAll('pre > code').forEach(function(codeblock) {
+        const button = document.createElement('button');
+        button.innerText = 'Copy';
+        button.style = 'position: absolute; right: 1em; top: 0.5em; background: #A9A9A9; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;';
+    
+        const pre = codeblock.parentNode;
+        pre.style = 'position: relative; padding-top: 2.5em;';
+        pre.appendChild(button);
+    
+        button.addEventListener('click', function() {
+          navigator.clipboard.writeText(codeblock.innerText).then(function() {
+            button.innerText = 'Copied!';
+            setTimeout(function() {
+              button.innerText = 'Copy';
+            }, 2000);
+          }, function(err) {
+            console.error('Copy failed', err);
+          });
+        });
+      });
+    });
+</script>    
+</html>
