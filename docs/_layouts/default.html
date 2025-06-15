@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-    <!-- GA4 -->
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-96RLJYNQ1Q"></script>
     <script>
@@ -74,5 +73,13 @@
         });
       });
     });
+
+    function trackDownloadClick() {
+      gtag('event', 'click', {
+        'event_category': 'Download',
+        'event_label': 'ACUNAO-AI Folder',
+        'transport_type': 'beacon'
+      });
+    }
 </script>    
 </html>
