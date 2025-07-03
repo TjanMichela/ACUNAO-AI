@@ -6,7 +6,7 @@ nav_order: 3
 # Download ACUNAO-AI
 
 ## BETA Version
-Download the MacOS Beta version of ACUNAO-AI through the button below. 
+Download the MacOS Apple Silicon Beta version of ACUNAO-AI through the button below. 
 
 *6GB of storage and 16GB of RAM are recommended.*
 
